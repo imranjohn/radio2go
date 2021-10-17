@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Resources\StationResource;
+use App\Models\Station;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -16,4 +18,14 @@ use Illuminate\Support\Facades\Route;
 
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
+});
+
+
+Route::get('stations', function() {
+    $station = StationResource::collection(Station::all());
+
+    $data = [
+        'station' => $station
+    ];
+    return response()->json($data);
 });
