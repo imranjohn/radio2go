@@ -40,6 +40,7 @@ class StationsController extends Controller
                 'name' => ['required', 'max:100'],
                 'stream_url' => ['nullable', 'max:200'],
                 'image_url' => ['nullable'],
+                'artwork_image' => ['nullable'],
                 'description' => ['nullable'],
                 'long_description' => ['nullable'],
             ])
@@ -56,6 +57,7 @@ class StationsController extends Controller
                 'name' => $station->name,
                 'stream_url' => $station->stream_url,
                 'image_url' => $station->image_url,
+                'artwork_image' => $station->artwork_image,
                 'description' => $station->description,
                 'long_description' => $station->long_description,
             ],
@@ -69,6 +71,7 @@ class StationsController extends Controller
                 'name' => ['required', 'max:100'],
                 'stream_url' => ['nullable', 'max:200'],
                 'image_url' => ['nullable'],
+                'artwork_image' => ['nullable'],
                 'description' => ['nullable'],
                 'long_description' => ['nullable'],
             ])

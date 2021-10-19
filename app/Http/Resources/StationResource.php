@@ -18,6 +18,7 @@ class StationResource extends JsonResource
             'name' => $this->name,
             'streamURL' => $this->stream_url,
             'imageURL' => $this->image_url,
+            'artworkImage' => $this->artwork_image,
             'desc' => $this->description,
             'longDesc' => $this->long_description,
         ];

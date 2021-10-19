@@ -10,7 +10,8 @@
           <text-input v-model="form.name" :error="form.errors.name" class="pr-6 pb-8 w-full lg:w-1/2" label="Name" />
           <text-input v-model="form.stream_url" :error="form.errors.stream_url" class="pr-6 pb-8 w-full lg:w-1/2" label="Stream url" />
           <text-input v-model="form.image_url" :error="form.errors.image_url" class="pr-6 pb-8 w-full lg:w-1/2" label="Image url" />
-          <text-input v-model="form.description" :error="form.errors.description" class="pr-6 pb-8 w-full lg:w-1/2" label="Description" />
+          <text-input v-model="form.artwork_image" :error="form.errors.artwork_image" class="pr-6 pb-8 w-full lg:w-1/2" label="Artwork url" />
+          <text-input v-model="form.description" :error="form.errors.description" class="pr-6 pb-8 w-full lg:w-1/1" label="Description" />
           <textarea-input v-model="form.long_description" :error="form.errors.long_description" class="pr-6 pb-8 w-full lg:w-1/1" label="Long Description" />
         </div>
         <div class="px-8 py-4 bg-gray-50 border-t border-gray-100 flex justify-end items-center">
@@ -42,6 +43,7 @@ export default {
         name: null,
         stream_url: null,
         image_url: null,
+        artwork_image: null,
         description: null,
         long_description: null,
       }),
