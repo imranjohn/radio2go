@@ -2,19 +2,19 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Station;
+use App\Models\BrandStation;
 use Illuminate\Support\Facades\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
 use Inertia\Inertia;
 
-class StationsController extends Controller
+class BrandStationsController extends Controller
 {
     public function index()
     {
-        return Inertia::render('Stations/Index', [
+        return Inertia::render('BrandStations/Index', [
             'filters' => Request::all('search', 'trashed'),
-            'stations' => Station::orderBy('id', 'desc')
+            'stations' => BrandStation::orderBy('id', 'desc')
                 ->filter(Request::only('search', 'trashed'))
                 ->paginate(10)
                 ->withQueryString()
@@ -30,12 +30,12 @@ class StationsController extends Controller
 
     public function create()
     {
-        return Inertia::render('Stations/Create');
+        return Inertia::render('BrandStations/Create');
     }
 
     public function store()
     {
-        Station::create(
+        BrandStation::create(
             Request::validate([
                 'name' => ['required', 'max:100'],
                 'stream_url' => ['required', 'max:200'],
@@ -46,27 +46,27 @@ class StationsController extends Controller
             ])
         );
 
-        return Redirect::route('stations.index')->with('success', 'Station created.');
+        return Redirect::route('brand-stations.index')->with('success', 'Brand station created.');
     }
 
-    public function edit(Station $station)
+    public function edit(BrandStation $brandStation)
     {
-        return Inertia::render('Stations/Edit', [
+        return Inertia::render('BrandStations/Edit', [
             'station' => [
-                'id' => $station->id,
-                'name' => $station->name,
-                'stream_url' => $station->stream_url,
-                'image_url' => $station->image_url,
-                'artwork_image' => $station->artwork_image,
-                'description' => $station->description,
-                'long_description' => $station->long_description,
+                'id' => $brandStation->id,
+                'name' => $brandStation->name,
+                'stream_url' => $brandStation->stream_url,
+                'image_url' => $brandStation->image_url,
+                'artwork_image' => $brandStation->artwork_image,
+                'description' => $brandStation->description,
+                'long_description' => $brandStation->long_description,
             ],
         ]);
     }
 
-    public function update(Station $station)
+    public function update(BrandStation $brandStation)
     {
-        $station->update(
+        $brandStation->update(
             Request::validate([
                 'name' => ['required', 'max:100'],
                 'stream_url' => ['required', 'max:200'],
@@ -77,20 +77,20 @@ class StationsController extends Controller
             ])
         );
 
-        return Redirect::back()->with('success', 'Station updated.');
+        return Redirect::back()->with('success', 'Brand station updated.');
     }
 
-    public function destroy(Station $station)
+    public function destroy(BrandStation $brandStation)
     {
-        $station->delete();
+        $brandStation->delete();
 
-        return Redirect::route('stations.index')->with('success', 'Station deleted.');
+        return Redirect::route('brand-stations.index')->with('success', 'Brand station deleted.');
     }
 
-    public function restore(Station $station)
+    public function restore(BrandStation $brandStation)
     {
-        $station->restore();
+        $brandStation->restore();
 
-        return Redirect::back()->with('success', 'Station restored.');
+        return Redirect::back()->with('success', 'Brand station restored.');
     }
 }
