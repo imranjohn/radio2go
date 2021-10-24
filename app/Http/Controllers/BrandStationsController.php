@@ -99,16 +99,16 @@ class BrandStationsController extends Controller
 
     public function qrCodeGenerator(BrandStation $brandStation) {
 
-        $brand_name = str_replace(" ", "-", strtolower($brandStation->name));
-        $image = base64_encode(QrCode::format('png')->merge('http://www.radio2go.fm/wp-content/uploads/2021/06/Logo_Radio2Go_weisseSubline.png', 0.2, true)
-            ->size(800)->errorCorrection('H')
-            ->color(17, 61, 88)
-            ->generate(url('/'.$brand_name.'/'.$brandStation->id)));
+        $brand_name = 'brand_stations';
 
-            return view('mobile', compact('image'));
-            
-    
-    
+        //'http://www.radio2go.fm/wp-content/uploads/2021/06/Logo_Radio2Go_weisseSubline.png',
+        $image = QrCode::format('png')->merge('logo_round.png', 0.2, true)
+            ->size(512)->errorCorrection('H')
+           // ->color(17, 61, 88)
+            ->generate(url('/'.$brand_name.'/'.$brandStation->id), $brand_name.'.png');
+          
+            return response()->download($brand_name.'.png');
+            //return view('mobile', compact('image'));
          
      }
 
