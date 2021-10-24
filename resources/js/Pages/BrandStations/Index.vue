@@ -22,6 +22,7 @@
           <th class="px-6 pt-6 pb-4 w-44">Station Logo</th>
           <th class="px-6 pt-6 pb-4">Station Url</th>
           <th class="px-6 pt-6 pb-4 w-44">QR code</th>
+          <th class="px-6 pt-6 pb-4 w-44">Deep Link</th>
           <th class="px-6 pt-6 pb-4">Action</th>
         </tr>
         <tr v-for="station in stations.data" :key="station.id" class="hover:bg-gray-100 focus-within:bg-gray-100">
@@ -42,8 +43,19 @@
             </inertia-link>
           </td>
           <td class="border-t">
-            <a class="px-6 py-4 flex items-center" target="_blank" :href="route('brand-station.qrCodeGenerator', station.id)">
+            <a class="px-6 py-4 flex items-center" :href="route('brand-station.qrCodeGenerator', station.id)">
               <img src="/images/qrcode-log.png" style="height: 50px" />
+            </a>
+          </td>
+          <td class="border-t">
+            <input :id="'deep_link_'+station.id" type="hidden" :value="station.id" />
+            <a class="px-6 py-4 flex items-center has-tooltip" @click="copyToClipboard('deep_link_'+station.id)">
+              <div class="relative" :class="true ? 'invisible' : ''" x-cloak x-show.transition.origin.top="tooltip">
+                <div class="absolute top-0 z-10 w-32 p-2 -mt-1 text-sm leading-tight text-white transform -translate-x-1/2 -translate-y-full bg-orange-500 rounded-lg shadow-lg">
+                  Copied
+                </div>
+              </div>
+              Copy Link
             </a>
           </td>
           <td class="border-t">
@@ -106,6 +118,18 @@ export default {
     },
   },
   methods: {
+    copyToClipboard(id) {
+      var base_url = window.location.origin;
+      var aux = document.createElement("input")
+  
+      aux.setAttribute("value", base_url+'/brand_stations/'+document.getElementById(id).value)
+      document.body.appendChild(aux)
+      aux.select()
+      document.execCommand("copy")
+
+      document.body.removeChild(aux)
+      alert("Link copied")
+    },
     reset() {
       this.form = mapValues(this.form, () => null)
     },
