@@ -21,6 +21,7 @@
           <th class="px-6 pt-6 pb-4 w-64">Station Name</th>
           <th class="px-6 pt-6 pb-4 w-44">Station Logo</th>
           <th class="px-6 pt-6 pb-4">Station Url</th>
+          <th class="px-6 pt-6 pb-4 w-44">QR code</th>
           <th class="px-6 pt-6 pb-4">Action</th>
         </tr>
         <tr v-for="station in stations.data" :key="station.id" class="hover:bg-gray-100 focus-within:bg-gray-100">
@@ -39,6 +40,11 @@
             <inertia-link class="px-6 py-4 flex items-center" :href="route('brand-stations.edit', station.id)" tabindex="-1">
               {{ station.stream_url !== null ? station.stream_url.substring(0, 30) : "" }}
             </inertia-link>
+          </td>
+          <td class="border-t">
+            <a class="px-6 py-4 flex items-center" target="_blank" :href="route('brand-station.qrCodeGenerator', station.id)">
+              <img src="/images/qrcode-log.png" style="height: 50px" />
+            </a>
           </td>
           <td class="border-t">
             <inertia-link class=" ml-7 float-left	" :href="route('brand-stations.edit', station.id)" tabindex="-1">

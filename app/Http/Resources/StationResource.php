@@ -6,6 +6,7 @@ use Illuminate\Http\Resources\Json\JsonResource;
 
 class StationResource extends JsonResource
 {
+
     /**
      * Transform the resource into an array.
      *
@@ -14,6 +15,7 @@ class StationResource extends JsonResource
      */
     public function toArray($request)
     {
+    
         return [
             'name' => $this->name,
             'streamURL' => $this->stream_url,

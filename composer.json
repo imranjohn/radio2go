@@ -16,6 +16,7 @@
         "laravel/framework": "^8.40",
         "laravel/tinker": "^2.5",
         "league/glide-laravel": "^1.0",
+        "simplesoftwareio/simple-qrcode": "^4.2",
         "tightenco/ziggy": "^0.8.0"
     },
     "require-dev": {
