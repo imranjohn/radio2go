@@ -9,7 +9,9 @@ use App\Http\Controllers\OrganizationsController;
 use App\Http\Controllers\ReportsController;
 use App\Http\Controllers\StationsController;
 use App\Http\Controllers\UsersController;
+use App\Models\BrandStation;
 use Illuminate\Support\Facades\Route;
+use SimpleSoftwareIO\QrCode\Facades\QrCode;
 
 /*
 |--------------------------------------------------------------------------
@@ -74,7 +76,27 @@ Route::put('users/{user}/restore', [UsersController::class, 'restore'])
     // Stations
     
 Route::resource('stations', StationsController::class)->middleware('auth');;
-Route::resource('brand-stations', BrandStationsController::class)->middleware('auth');;
+Route::resource('brand-stations', BrandStationsController::class)->middleware('auth');
+
+Route::get('qr-code-viewwer/{brandStation}', [BrandStationsController::class, 'qrCodeGenerator'])->name('brand-station.qrCodeGenerator');
+
+Route::get('apple-app-site-association', function() {
+//{"applinks":{"apps":[],"details":[{"appID":"NRFC2SBT2K.com.letech.radio2go","paths":["*"]}]}}
+
+$data = [
+    'applinks' => [
+        "apps" => [],
+        "details" => [
+            [
+                "appID" => "NRFC2SBT2K.com.letech.radio2go",
+                "paths" => ["*"]
+            ]
+        ]
+    ]
+];
+return response()->json($data);
+});
+
 
 
 Route::get('reports', [ReportsController::class, 'index'])
@@ -86,3 +108,6 @@ Route::get('reports', [ReportsController::class, 'index'])
 Route::get('/img/{path}', [ImagesController::class, 'show'])
     ->where('path', '.*')
     ->name('image');
+
+
+   

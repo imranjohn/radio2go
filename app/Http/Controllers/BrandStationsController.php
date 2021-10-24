@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\StationResource;
 use App\Models\BrandStation;
 use Illuminate\Support\Facades\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
 use Inertia\Inertia;
+use SimpleSoftwareIO\QrCode\Facades\QrCode;
 
 class BrandStationsController extends Controller
 {
@@ -93,4 +95,37 @@ class BrandStationsController extends Controller
 
         return Redirect::back()->with('success', 'Brand station restored.');
     }
+
+
+    public function qrCodeGenerator(BrandStation $brandStation) {
+
+        $brand_name = str_replace(" ", "-", strtolower($brandStation->name));
+        $image = base64_encode(QrCode::format('png')->merge('http://www.radio2go.fm/wp-content/uploads/2021/06/Logo_Radio2Go_weisseSubline.png', 0.2, true)
+            ->size(800)->errorCorrection('H')
+            ->color(17, 61, 88)
+            ->generate(url('/'.$brand_name.'/'.$brandStation->id)));
+
+            return view('mobile', compact('image'));
+            
+    
+    
+         
+     }
+
+     public function brandStations() {
+
+        request()->validate([
+             'ids' => ['required']
+         ]);
+
+        $ids = explode(",", request()->ids);
+
+        $station_res = StationResource::collection(BrandStation::whereIn('id', $ids)->get());
+
+        $data = [
+            'station' => $station_res
+        ];
+        return response()->json($data);
+     
+     }
 }
