@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\StationResource;
 use App\Models\Station;
 use Illuminate\Support\Facades\Request;
 use Illuminate\Support\Facades\Auth;
@@ -92,5 +93,16 @@ class StationsController extends Controller
         $station->restore();
 
         return Redirect::back()->with('success', 'Station restored.');
+    }
+
+
+    public function stations() {
+        
+        $station = StationResource::collection(Station::all());
+
+        $data = [
+            'station' => $station
+        ];
+        return response()->json($data);
     }
 }

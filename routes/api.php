@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\BrandStationsController;
+use App\Http\Controllers\StationsController;
 use App\Http\Resources\StationResource;
 use App\Models\Station;
 use Illuminate\Http\Request;
@@ -20,12 +22,12 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
+Route::middleware('api')->group(function() {
+    Route::get('stations', [StationsController::class, 'stations']);
 
-Route::get('stations', function() {
-    $station = StationResource::collection(Station::all());
-
-    $data = [
-        'station' => $station
-    ];
-    return response()->json($data);
+    Route::get('brand-stations', [BrandStationsController::class, 'brandStations']);
 });
+
+
+
+
