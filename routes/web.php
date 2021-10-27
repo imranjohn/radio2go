@@ -89,7 +89,7 @@ $data = [
         "details" => [
             [
                 "appID" => "NRFC2SBT2K.com.letech.radio2go",
-                "paths" => ["*"]
+                "paths" => ["NOT /_/","/"]
             ]
         ]
     ]
