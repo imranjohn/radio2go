@@ -89,12 +89,12 @@ $data = [
         "details" => [
             [
                 "appID" => "NRFC2SBT2K.com.letech.radio2go",
-                "paths" => ['NOT /_/*','/*']
+                "paths" => ["*"]
             ]
         ]
     ]
 ];
-return json_encode($data, JSON_UNESCAPED_SLASHES);
+return response()->json($data);
 });
 
 
