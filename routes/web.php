@@ -82,19 +82,22 @@ Route::get('qr-code-viewwer/{brandStation}', [BrandStationsController::class, 'q
 
 Route::get('apple-app-site-association', function() {
 //{"applinks":{"apps":[],"details":[{"appID":"NRFC2SBT2K.com.letech.radio2go","paths":["*"]}]}}
+$json = file_get_contents('.well-known/apple-app-site-association');
+    return response($json, 200)
+        ->header('Content-Type', 'application/json');
 
-$data = [
-    'applinks' => [
-        "apps" => [],
-        "details" => [
-            [
-                "appID" => "NRFC2SBT2K.com.letech.radio2go",
-                "paths" => ["*"]
-            ]
-        ]
-    ]
-];
-return response()->json($data);
+// $data = [
+//     'applinks' => [
+//         "apps" => [],
+//         "details" => [
+//             [
+//                 "appID" => "NRFC2SBT2K.com.letech.radio2go",
+//                 "paths" => ["*"]
+//             ]
+//         ]
+//     ]
+// ];
+// return response()->json($data);
 });
 
 
