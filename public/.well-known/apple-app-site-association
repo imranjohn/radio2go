@@ -1,16 +1,1 @@
-{
-    "applinks": {
-        "details": [
-             {
-               "appIDs": [ "NRFC2SBT2K.com.letech.radio2go" ],
-               "components": [
-                 {
-                    "/": "brand-station",
-                    "exclude": true,
-                    "comment": "Matches any URL whose fragment equals no_universal_links and instructs the system not to open it as a universal link"
-                 }
-               ]
-             }
-         ]
-     }
-  }
+{"applinks":{"apps":[],"details":[{"appID":"NRFC2SBT2K.com.letech.radio2go","paths":["/brand-station/*"]}]}}
