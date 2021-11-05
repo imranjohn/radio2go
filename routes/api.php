@@ -25,7 +25,7 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 Route::middleware('api')->group(function() {
     Route::get('stations', [StationsController::class, 'stations']);
 
-    Route::get('brand-stations', [BrandStationsController::class, 'brandStations']);
+    Route::get('brand-stations/{brandStation}', [BrandStationsController::class, 'brandStations'])->name('brand.stations.deeplink');
 });
 
 

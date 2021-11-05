@@ -15,14 +15,17 @@ class StationResource extends JsonResource
      */
     public function toArray($request)
     {
+      
     
         return [
+            'id' => $this->id,
             'name' => $this->name,
             'streamURL' => $this->stream_url,
             'imageURL' => $this->image_url,
             'artworkImage' => $this->artwork_image,
             'desc' => $this->description,
             'longDesc' => $this->long_description,
+            'isFavorite' => $request->isFavorite ? true : false
         ];
 
         

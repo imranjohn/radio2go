@@ -37,7 +37,7 @@ class BrandStationsController extends Controller
 
     public function store()
     {
-        BrandStation::create(
+       $brandStation = BrandStation::create(
             Request::validate([
                 'name' => ['required', 'max:100'],
                 'stream_url' => ['required', 'max:200'],
@@ -48,8 +48,52 @@ class BrandStationsController extends Controller
             ])
         );
 
+       $id = $brandStation->id;
+
+       $key = 'AIzaSyCnL_gj4W4P4B9snOFw_thX7Yb5EXwPWrA';
+       $url = 'https://firebasedynamiclinks.googleapis.com/v1/shortLinks?key=' . $key;
+     
+       $data = array(
+          "dynamicLinkInfo" => array(
+             "domainUriPrefix" => "radio2go.page.link",
+             "link" => route('brand.stations.deeplink', ['brandStation' => $id]),
+             "iosInfo" => [
+                 "iosBundleId" => "com.letech.radio2go",
+                 "iosAppStoreId" => "1588788883"
+             ],
+             "androidInfo" => [
+                 "androidPackageName" => "com.app.radio2go"
+             ]
+          )
+       );
+     
+     
+     
+     
+       $headers = array('Content-Type: application/json');
+     
+       $ch = curl_init ();
+       curl_setopt ( $ch, CURLOPT_URL, $url );
+       curl_setopt ( $ch, CURLOPT_POST, true );
+       curl_setopt ( $ch, CURLOPT_HTTPHEADER, $headers );
+       curl_setopt ( $ch, CURLOPT_RETURNTRANSFER, true );
+       curl_setopt ( $ch, CURLOPT_POSTFIELDS, json_encode($data) );
+     
+       $data = curl_exec ( $ch );
+       curl_close ( $ch );
+     
+       $short_url = json_decode($data);
+     
+
+       if(isset($short_url->error)){
+          return redirect()->back()->with('error', $short_url->error->message);
+       } else {
+        $shortLink = $short_url->shortLink;
+        $brandStation->update(['deep_link' => $shortLink]);
         return Redirect::route('brand-stations.index')->with('success', 'Brand station created.');
+       }
     }
+     
 
     public function edit(BrandStation $brandStation)
     {
@@ -100,32 +144,25 @@ class BrandStationsController extends Controller
     public function qrCodeGenerator(BrandStation $brandStation) {
 
         $brand_name = 'brand_stations';
+        $deep_link = $brandStation->deep_link;
 
         //'http://www.radio2go.fm/wp-content/uploads/2021/06/Logo_Radio2Go_weisseSubline.png',
         $image = QrCode::format('png')->merge('logo_round.png', 0.2, true)
             ->size(512)->errorCorrection('H')
            // ->color(17, 61, 88)
-            ->generate(url('/'.$brand_name.'/'.$brandStation->id), $brand_name.'.png');
-          
-            return response()->download($brand_name.'.png');
-            //return view('mobile', compact('image'));
+            ->generate($deep_link);
+           // return response()->download($image);
+           return view('mobile', compact('image', 'deep_link'));
          
      }
 
-     public function brandStations() {
+     public function brandStations(BrandStation $brandStation) {
 
-        request()->validate([
-             'ids' => ['required']
-         ]);
+        request()->merge(['isFavorite' => true]);
+        $station_res = new StationResource($brandStation);
 
-        $ids = explode(",", request()->ids);
-
-        $station_res = StationResource::collection(BrandStation::whereIn('id', $ids)->get());
-
-        $data = [
-            'station' => $station_res
-        ];
-        return response()->json($data);
+         
+        return response()->json($station_res);
      
      }
 }

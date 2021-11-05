@@ -43,18 +43,18 @@
             </inertia-link>
           </td>
           <td class="border-t">
-            <a class="px-6 py-4 flex items-center" :href="route('brand-station.qrCodeGenerator', station.id)">
+            <a class="px-6 py-4 flex items-center" target="_blank" :href="route('brand-station.qrCodeGenerator', station.id)">
               <img src="/images/qrcode-log.png" style="height: 50px" />
             </a>
           </td>
-          <td class="border-t">
+          <td class="border-t ">
             <input :id="'deep_link_'+station.id" type="hidden" :value="station.id" />
-            <a class="px-6 py-4 flex items-center has-tooltip" @click="copyToClipboard('deep_link_'+station.id)">
-              <div class="relative" :class="true ? 'invisible' : ''" x-cloak x-show.transition.origin.top="tooltip">
+            <a class="no-underline hover:underline cursor-pointer px-6 py-4 flex items-center text-blue-900" @click="copyToClipboard('deep_link_'+station.id)">
+              <!-- <div class="relative" :class="true ? 'invisible' : ''" x-cloak x-show.transition.origin.top="tooltip">
                 <div class="absolute top-0 z-10 w-32 p-2 -mt-1 text-sm leading-tight text-white transform -translate-x-1/2 -translate-y-full bg-orange-500 rounded-lg shadow-lg">
                   Copied
                 </div>
-              </div>
+              </div> -->
               Copy Link
             </a>
           </td>

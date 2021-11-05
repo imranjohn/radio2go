@@ -31,6 +31,9 @@ module.exports = {
       },
     },
     extend: {
+      backgroundImage: {
+        'login-pattern': 'url("/images/Background_m_logo2.png")',
+      },
       borderColor: theme => ({
         DEFAULT: theme('colors.gray.200', 'currentColor'),
       }),
