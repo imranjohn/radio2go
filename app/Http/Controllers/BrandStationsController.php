@@ -23,6 +23,7 @@ class BrandStationsController extends Controller
                 ->through(fn ($station) => [
                     'id' => $station->id,
                     'name' => $station->name,
+                    'deep_link' => $station->deep_link,
                     'stream_url' => $station->stream_url,
                     'image_url' => $station->image_url,
                     'deleted_at' => $station->deleted_at,

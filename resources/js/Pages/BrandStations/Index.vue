@@ -48,8 +48,8 @@
             </a>
           </td>
           <td class="border-t ">
-            <input :id="'deep_link_'+station.id" type="hidden" :value="station.id" />
-            <a class="no-underline hover:underline cursor-pointer px-6 py-4 flex items-center text-blue-900" @click="copyToClipboard('deep_link_'+station.id)">
+            <input :id="'deep_link_'+station.id" type="hidden" :value="station.deep_link" />
+            <a class="no-underline hover:underline cursor-pointer px-6 py-4 flex items-center text-blue-900" @click="copyToClipboard(station.deep_link)">
               <!-- <div class="relative" :class="true ? 'invisible' : ''" x-cloak x-show.transition.origin.top="tooltip">
                 <div class="absolute top-0 z-10 w-32 p-2 -mt-1 text-sm leading-tight text-white transform -translate-x-1/2 -translate-y-full bg-orange-500 rounded-lg shadow-lg">
                   Copied
@@ -119,10 +119,10 @@ export default {
   },
   methods: {
     copyToClipboard(id) {
-      var base_url = window.location.origin;
+  
       var aux = document.createElement("input")
   
-      aux.setAttribute("value", base_url+'/brand_stations/'+document.getElementById(id).value)
+      aux.setAttribute("value", id)
       document.body.appendChild(aux)
       aux.select()
       document.execCommand("copy")
