@@ -166,4 +166,57 @@ class BrandStationsController extends Controller
         return response()->json($station_res);
      
      }
+
+     public function duplicateBrandStation(BrandStation $brandStation) {
+        $new = $brandStation->replicate();
+        $new->save();
+
+        $id = $new->id;
+
+        $key = 'AIzaSyCnL_gj4W4P4B9snOFw_thX7Yb5EXwPWrA';
+        $url = 'https://firebasedynamiclinks.googleapis.com/v1/shortLinks?key=' . $key;
+      
+        $data = array(
+           "dynamicLinkInfo" => array(
+              "domainUriPrefix" => "radio2go.page.link",
+              "link" => route('brand.stations.deeplink', ['brandStation' => $id]),
+              "iosInfo" => [
+                  "iosBundleId" => "com.letech.radio2go",
+                  "iosAppStoreId" => "1588788883"
+              ],
+              "androidInfo" => [
+                  "androidPackageName" => "com.app.radio2go"
+              ]
+           )
+        );
+      
+      
+      
+      
+        $headers = array('Content-Type: application/json');
+      
+        $ch = curl_init ();
+        curl_setopt ( $ch, CURLOPT_URL, $url );
+        curl_setopt ( $ch, CURLOPT_POST, true );
+        curl_setopt ( $ch, CURLOPT_HTTPHEADER, $headers );
+        curl_setopt ( $ch, CURLOPT_RETURNTRANSFER, true );
+        curl_setopt ( $ch, CURLOPT_POSTFIELDS, json_encode($data) );
+      
+        $data = curl_exec ( $ch );
+        curl_close ( $ch );
+      
+        $short_url = json_decode($data);
+      
+ 
+        if(isset($short_url->error)){
+           return redirect()->back()->with('error', $short_url->error->message);
+        } else {
+         $shortLink = $short_url->shortLink;
+         $new->update(['deep_link' => $shortLink]);
+         return Redirect::route('brand-stations.index')->with('success', 'Brand station with a id of ('.$new->id.') has been duplicated.');
+        }
+
+       
+       
+     }
 }

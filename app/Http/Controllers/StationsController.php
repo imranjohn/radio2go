@@ -105,4 +105,11 @@ class StationsController extends Controller
         ];
         return response()->json($data);
     }
+
+    public function duplicateStation(Station $station) {
+        $new = $station->replicate();
+        $new->save();
+        return Redirect::route('stations.index')->with('success', 'Station with a id of ('.$new->id.') has been duplicated.');
+
+    }
 }

@@ -20,7 +20,8 @@
         </div>
         <div class="px-8 py-4 bg-gray-50 border-t border-gray-100 flex items-center">
           <button v-if="!station.deleted_at" class="text-red-600 hover:underline" tabindex="-1" type="button" @click="destroy">Delete Brand Station</button>
-          <loading-button :loading="form.processing" class="btn-indigo ml-auto" type="submit">Update Brand Station</loading-button>
+          <button :loading="form.processing" class="btn-indigo ml-auto bg-yellow-600" type="button" @click="duplicate">Duplicate Station</button>
+          <loading-button :loading="form.processing" class="btn-indigo float-left ml-1" type="submit">Update Brand Station</loading-button>
         </div>
       </form>
     </div>
@@ -68,6 +69,11 @@ export default {
     destroy() {
       if (confirm('Are you sure you want to delete this brand station?')) {
         this.$inertia.delete(this.route('brand-stations.destroy', this.station.id))
+      }
+    },
+    duplicate() {
+      if (confirm('Are you sure you want to duplicate this brand station?')) {
+        this.$inertia.post(this.route('brand-stations.duplicate', this.station.id))
       }
     },
     restore() {
