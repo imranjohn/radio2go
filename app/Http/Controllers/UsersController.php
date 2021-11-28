@@ -15,6 +15,9 @@ class UsersController extends Controller
 {
     public function index()
     {
+      
+        abort_if(!auth()->user()->owner, 403);
+        
         return Inertia::render('Users/Index', [
             'filters' => Request::all('search', 'role', 'trashed'),
             'users' => Auth::user()->account->users()
@@ -34,16 +37,18 @@ class UsersController extends Controller
 
     public function create()
     {
+        abort_if(!auth()->user()->owner, 403);
         return Inertia::render('Users/Create');
     }
 
     public function store()
     {
+        abort_if(!auth()->user()->owner, 403);
         Request::validate([
             'first_name' => ['required', 'max:50'],
             'last_name' => ['required', 'max:50'],
+            'password' => ['required', 'max:50'],
             'email' => ['required', 'max:50', 'email', Rule::unique('users')],
-            'password' => ['nullable'],
             'owner' => ['required', 'boolean'],
             'photo' => ['nullable', 'image'],
         ]);
@@ -62,6 +67,7 @@ class UsersController extends Controller
 
     public function edit(User $user)
     {
+        abort_if(!auth()->user()->owner, 403);
         return Inertia::render('Users/Edit', [
             'user' => [
                 'id' => $user->id,
@@ -77,6 +83,7 @@ class UsersController extends Controller
 
     public function update(User $user)
     {
+        abort_if(!auth()->user()->owner, 403);
         if (App::environment('demo') && $user->isDemoUser()) {
             return Redirect::back()->with('error', 'Updating the demo user is not allowed.');
         }
@@ -85,9 +92,6 @@ class UsersController extends Controller
             'first_name' => ['required', 'max:50'],
             'last_name' => ['required', 'max:50'],
             'email' => ['required', 'max:50', 'email', Rule::unique('users')->ignore($user->id)],
-            'password' => ['nullable'],
-            'owner' => ['required', 'boolean'],
-            'photo' => ['nullable', 'image'],
         ]);
 
         $user->update(Request::only('first_name', 'last_name', 'email', 'owner'));
@@ -105,6 +109,7 @@ class UsersController extends Controller
 
     public function destroy(User $user)
     {
+        abort_if(!auth()->user()->owner, 403);
         if (App::environment('demo') && $user->isDemoUser()) {
             return Redirect::back()->with('error', 'Deleting the demo user is not allowed.');
         }
@@ -116,6 +121,7 @@ class UsersController extends Controller
 
     public function restore(User $user)
     {
+        abort_if(!auth()->user()->owner, 403);
         $user->restore();
 
         return Redirect::back()->with('success', 'User restored.');

@@ -13,6 +13,7 @@ class StationsController extends Controller
 {
     public function index()
     {
+        abort_if(!auth()->user()->owner, 403);
         return Inertia::render('Stations/Index', [
             'filters' => Request::all('search', 'trashed'),
             'stations' => Station::orderBy('id', 'desc')
@@ -31,11 +32,13 @@ class StationsController extends Controller
 
     public function create()
     {
+        abort_if(!auth()->user()->owner, 403);
         return Inertia::render('Stations/Create');
     }
 
     public function store()
     {
+        abort_if(!auth()->user()->owner, 403);
         Station::create(
             Request::validate([
                 'name' => ['required', 'max:100'],
@@ -52,6 +55,7 @@ class StationsController extends Controller
 
     public function edit(Station $station)
     {
+        abort_if(!auth()->user()->owner, 403);
         return Inertia::render('Stations/Edit', [
             'station' => [
                 'id' => $station->id,
@@ -67,6 +71,7 @@ class StationsController extends Controller
 
     public function update(Station $station)
     {
+        abort_if(!auth()->user()->owner, 403);
         $station->update(
             Request::validate([
                 'name' => ['required', 'max:100'],
@@ -83,6 +88,7 @@ class StationsController extends Controller
 
     public function destroy(Station $station)
     {
+        abort_if(!auth()->user()->owner, 403);
         $station->delete();
 
         return Redirect::route('stations.index')->with('success', 'Station deleted.');
@@ -90,6 +96,7 @@ class StationsController extends Controller
 
     public function restore(Station $station)
     {
+        abort_if(!auth()->user()->owner, 403);
         $station->restore();
 
         return Redirect::back()->with('success', 'Station restored.');
@@ -97,6 +104,7 @@ class StationsController extends Controller
 
 
     public function stations() {
+        abort_if(!auth()->user()->owner, 403);
         
         $station = StationResource::collection(Station::all());
 
@@ -107,6 +115,7 @@ class StationsController extends Controller
     }
 
     public function duplicateStation(Station $station) {
+        abort_if(!auth()->user()->owner, 403);
         $new = $station->replicate();
         $new->save();
         return Redirect::route('stations.index')->with('success', 'Station with a id of ('.$new->id.') has been duplicated.');

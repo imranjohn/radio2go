@@ -16,7 +16,12 @@ class BrandStationsController extends Controller
     {
         return Inertia::render('BrandStations/Index', [
             'filters' => Request::all('search', 'trashed'),
-            'stations' => BrandStation::orderBy('id', 'desc')
+            'stations' => BrandStation::where(function($query){
+                if(!auth()->user()->owner){
+                    $query->where('created_by', auth()->user()->id);
+                }
+                
+            })->orderBy('id', 'desc')
                 ->filter(Request::only('search', 'trashed'))
                 ->paginate(10)
                 ->withQueryString()
@@ -90,7 +95,7 @@ class BrandStationsController extends Controller
           return redirect()->back()->with('error', $short_url->error->message);
        } else {
         $shortLink = $short_url->shortLink;
-        $brandStation->update(['deep_link' => $shortLink]);
+        $brandStation->update(['deep_link' => $shortLink, 'created_by' => auth()->user()->id]);
         return Redirect::route('brand-stations.index')->with('success', 'Brand station created.');
        }
     }
