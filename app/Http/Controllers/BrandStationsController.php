@@ -119,6 +119,7 @@ class BrandStationsController extends Controller
                 'artwork_image' => $brandStation->artwork_image,
                 'description' => $brandStation->description,
                 'long_description' => $brandStation->long_description,
+                'photoExist' => file_exists( public_path() . '/storage/photos/'.$brandStation->id) ? true : false
             ],
         ]);
     }
