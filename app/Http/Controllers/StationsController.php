@@ -104,7 +104,7 @@ class StationsController extends Controller
 
 
     public function stations() {
-        abort_if(!auth()->user()->owner, 403);
+       // abort_if(!auth()->user()->owner, 403);
         
         $station = StationResource::collection(Station::all());
 

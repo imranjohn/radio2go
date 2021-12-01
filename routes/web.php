@@ -81,6 +81,7 @@ Route::resource('brand-stations', BrandStationsController::class)->middleware('a
 
 Route::get('qr-code-viewwer/{brandStation}', [BrandStationsController::class, 'qrCodeGenerator'])->name('brand-station.qrCodeGenerator');
 Route::post('brand-stations/{brandStation}', [BrandStationsController::class, 'duplicateBrandStation'])->name('brand-stations.duplicate');
+Route::post('brand-stations/update/{brandStation}', [BrandStationsController::class, 'update'])->name('brand-stations.updateNew');
 Route::post('stations/{station}', [StationsController::class, 'duplicateStation'])->name('stations.duplicate');
 
 Route::get('generate-link', function() {

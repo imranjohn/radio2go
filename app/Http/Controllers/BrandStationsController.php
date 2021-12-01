@@ -43,6 +43,8 @@ class BrandStationsController extends Controller
 
     public function store()
     {
+    
+    
        $brandStation = BrandStation::create(
             Request::validate([
                 'name' => ['required', 'max:100'],
@@ -53,6 +55,11 @@ class BrandStationsController extends Controller
                 'long_description' => ['nullable'],
             ])
         );
+
+        if (Request::file('photo')) {
+          request()->file('photo')->storeAs('photos', $brandStation->id);
+        }
+
 
        $id = $brandStation->id;
 
@@ -128,6 +135,9 @@ class BrandStationsController extends Controller
                 'long_description' => ['nullable'],
             ])
         );
+        if (Request::file('photo')) {
+            request()->file('photo')->storeAs('photos', $brandStation->id);
+        }
 
         return Redirect::back()->with('success', 'Brand station updated.');
     }
@@ -151,14 +161,13 @@ class BrandStationsController extends Controller
 
         $brand_name = 'brand_stations';
         $deep_link = $brandStation->deep_link;
-
-        //'http://www.radio2go.fm/wp-content/uploads/2021/06/Logo_Radio2Go_weisseSubline.png',
-        $image = QrCode::format('png')->merge('logo_round.png', 0.2, true)
-            ->size(512)->errorCorrection('H')
-           // ->color(17, 61, 88)
-            ->generate($deep_link);
+       
+        $path = 'logo_round.png';
+        if (file_exists( public_path() . '/storage/photos/'.$brandStation->id)) {
+            $path = 'storage/photos/'.$brandStation->id;
+        } 
            // return response()->download($image);
-           return view('mobile', compact('image', 'deep_link'));
+        return view('mobile', compact('deep_link', 'path'));
          
      }
 
