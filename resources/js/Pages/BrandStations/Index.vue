@@ -21,7 +21,7 @@
           <th class="px-6 pt-6 pb-4 w-64">Station Name</th>
           <th class="px-6 pt-6 pb-4 w-44">Station Logo</th>
           <th class="px-6 pt-6 pb-4">Station Url</th>
-          <th class="px-6 pt-6 pb-4">Description</th>
+          <th class="px pt-6 pb-4">Description</th>
           <th class="px-6 pt-6 pb-4 w-44">QR code</th>
           <th class="px-6 pt-6 pb-4 w-44">Deep Link</th>
           <th class="px-6 pt-6 pb-4">Action</th>
