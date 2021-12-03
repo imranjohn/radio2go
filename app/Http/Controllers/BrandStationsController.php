@@ -185,6 +185,7 @@ class BrandStationsController extends Controller
 
      public function duplicateBrandStation(BrandStation $brandStation) {
         $new = $brandStation->replicate();
+        $new->name = "Duplicate of ($brandStation->name)";
         $new->save();
 
         $id = $new->id;

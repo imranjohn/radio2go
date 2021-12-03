@@ -118,6 +118,7 @@ class StationsController extends Controller
     public function duplicateStation(Station $station) {
         abort_if(!auth()->user()->owner, 403);
         $new = $station->replicate();
+        $new->name = "Duplicate of ($station->name)";
         $new->save();
         return Redirect::route('stations.index')->with('success', 'Station with a id of ('.$new->id.') has been duplicated.');
 
