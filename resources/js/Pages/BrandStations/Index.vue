@@ -21,6 +21,7 @@
           <th class="px-6 pt-6 pb-4 w-64">Station Name</th>
           <th class="px-6 pt-6 pb-4 w-44">Station Logo</th>
           <th class="px-6 pt-6 pb-4">Station Url</th>
+          <th class="px-6 pt-6 pb-4">Description</th>
           <th class="px-6 pt-6 pb-4 w-44">QR code</th>
           <th class="px-6 pt-6 pb-4 w-44">Deep Link</th>
           <th class="px-6 pt-6 pb-4">Action</th>
@@ -41,6 +42,9 @@
             <inertia-link class="px-6 py-4 flex items-center" :href="route('brand-stations.edit', station.id)" tabindex="-1">
               {{ station.stream_url !== null ? station.stream_url.substring(0, 30) : "" }}
             </inertia-link>
+          </td>
+          <td class="border-t">
+            {{ station.description !== null ? station.description.substring(0, 50) : "" }}
           </td>
           <td class="border-t">
             <a class="px-6 py-4 flex items-center" target="_blank" :href="route('brand-station.qrCodeGenerator', station.id)">

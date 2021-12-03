@@ -31,6 +31,7 @@ class BrandStationsController extends Controller
                     'deep_link' => $station->deep_link,
                     'stream_url' => $station->stream_url,
                     'image_url' => $station->image_url,
+                    'description' => $station->description,
                     'deleted_at' => $station->deleted_at,
                 ]),
         ]);

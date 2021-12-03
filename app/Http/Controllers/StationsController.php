@@ -25,6 +25,7 @@ class StationsController extends Controller
                     'name' => $station->name,
                     'stream_url' => $station->stream_url,
                     'image_url' => $station->image_url,
+                    'description' => $station->description,
                     'deleted_at' => $station->deleted_at,
                 ]),
         ]);
