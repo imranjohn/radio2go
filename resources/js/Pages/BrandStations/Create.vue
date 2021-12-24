@@ -46,7 +46,7 @@ export default {
       form: this.$inertia.form({
         name: null,
         stream_url: null,
-        image_url: "https://www.knecht.ch/gebr/wp-content/uploads/2015/09/KnechtLogo5001.png",
+        image_url: null,
         artwork_image: null,
         description: null,
         long_description: null,
