@@ -27,6 +27,7 @@ class StationResource extends JsonResource
             'desc' => $this->description,
             'longDesc' => $this->long_description,
             'audio_url' => $audio_link,
+            'audio_url' => $this->audio_duration,
             'isFavorite' => $request->isFavorite ? true : false
         ];
 
