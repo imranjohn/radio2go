@@ -9,6 +9,8 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
 use Inertia\Inertia;
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
+use wapmorgan\Mp3Info\Mp3Info;
+
 
 class BrandStationsController extends Controller
 {
@@ -61,6 +63,15 @@ class BrandStationsController extends Controller
           request()->file('photo')->storeAs('photos', $brandStation->id);
         }
 
+        $audio_url = "";
+        $audio_duration = 0;
+        if (Request::file('audio')) {
+           $audio_url =  request()->file('audio')->store('audio');
+           $audio = new Mp3Info('storage/'.$audio_url);
+           $audio_duration = $audio->duration;
+
+        }
+
 
        $id = $brandStation->id;
 
@@ -103,7 +114,7 @@ class BrandStationsController extends Controller
           return redirect()->back()->with('error', $short_url->error->message);
        } else {
         $shortLink = $short_url->shortLink;
-        $brandStation->update(['deep_link' => $shortLink, 'created_by' => auth()->user()->id]);
+        $brandStation->update(['deep_link' => $shortLink, 'audio_url' => $audio_url, 'audio_duration' => $audio_duration, 'created_by' => auth()->user()->id]);
         return Redirect::route('brand-stations.index')->with('success', 'Brand station created.');
        }
     }
@@ -127,6 +138,7 @@ class BrandStationsController extends Controller
 
     public function update(BrandStation $brandStation)
     {
+      
         $brandStation->update(
             Request::validate([
                 'name' => ['required', 'max:100'],
@@ -141,6 +153,16 @@ class BrandStationsController extends Controller
             request()->file('photo')->storeAs('photos', $brandStation->id);
         }
 
+        $audio_url = "";
+        $audio_duration = 0;
+        if (Request::file('audio')) {
+           $audio_url =  request()->file('audio')->store('audio');
+           $audio = new Mp3Info('storage/'.$audio_url);
+           $audio_duration = $audio->duration;
+           //dd($audio_duration);
+        }
+
+        $brandStation->update(['audio_url' => $audio_url, 'audio_duration' => $audio_duration]);
         return Redirect::back()->with('success', 'Brand station updated.');
     }
 

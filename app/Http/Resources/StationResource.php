@@ -15,7 +15,8 @@ class StationResource extends JsonResource
      */
     public function toArray($request)
     {
-      
+         
+      $audio_link = isset($this->audio_url) && file_exists('storage/'.$this->audio_url) ? url('storage/'.$this->audio_url) : null;
     
         return [
             'id' => $this->id,
@@ -25,6 +26,7 @@ class StationResource extends JsonResource
             'artworkImage' => $this->artwork_image,
             'desc' => $this->description,
             'longDesc' => $this->long_description,
+            'audio_url' => $audio_link,
             'isFavorite' => $request->isFavorite ? true : false
         ];
 

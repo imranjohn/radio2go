@@ -14,6 +14,7 @@
           <text-input v-model="form.description" :error="form.errors.description" class="pr-6 pb-8 w-full lg:w-1/1" label="Description" />
           <textarea-input v-model="form.long_description" :error="form.errors.long_description" class="pr-6 pb-8 w-full lg:w-1/1" label="Long Description" />
           <file-input v-model="form.photo" :error="form.errors.photo" class="pr-6 pb-8 w-full lg:w-1/2" type="file" accept="image/*" label="Photo" />
+          <file-input v-model="form.audio" :error="form.errors.audio" class="pr-6 pb-8 w-full lg:w-1/2" type="file" accept="audio/*" label="Audio" />
         </div>
         <div class="px-8 py-4 bg-gray-50 border-t border-gray-100 flex justify-end items-center">
           <loading-button :loading="form.processing" class="btn-indigo" type="submit">Create Brand Station</loading-button>
@@ -45,11 +46,12 @@ export default {
       form: this.$inertia.form({
         name: null,
         stream_url: null,
-        image_url: null,
+        image_url: "https://www.knecht.ch/gebr/wp-content/uploads/2015/09/KnechtLogo5001.png",
         artwork_image: null,
         description: null,
         long_description: null,
         photo:null,
+        audio:null,
       }),
     }
   },

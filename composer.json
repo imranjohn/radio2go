@@ -17,7 +17,8 @@
         "laravel/tinker": "^2.5",
         "league/glide-laravel": "^1.0",
         "simplesoftwareio/simple-qrcode": "^4.2",
-        "tightenco/ziggy": "^0.8.0"
+        "tightenco/ziggy": "^0.8.0",
+        "wapmorgan/mp3info": "^0.0.7"
     },
     "require-dev": {
         "facade/ignition": "^2.5",
