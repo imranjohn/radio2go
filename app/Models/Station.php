@@ -29,4 +29,8 @@ class Station extends Model
             }
         });
     }
+
+    public function sortedStation(){
+        return $this->hasMany(SortedStation::class);
+    }
 }

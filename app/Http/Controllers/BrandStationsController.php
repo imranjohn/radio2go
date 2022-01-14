@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\Redirect;
 use Inertia\Inertia;
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
 use wapmorgan\Mp3Info\Mp3Info;
-
+use App\Models\SortedStation;
 
 class BrandStationsController extends Controller
 {
@@ -18,7 +18,7 @@ class BrandStationsController extends Controller
     {
         return Inertia::render('BrandStations/Index', [
             'filters' => Request::all('search', 'trashed'),
-            'stations' => BrandStation::where(function($query){
+            'stations' => BrandStation::where('is_branded_station', true)->where(function($query){
                 if(!auth()->user()->owner){
                     $query->where('created_by', auth()->user()->id);
                 }
@@ -66,7 +66,10 @@ class BrandStationsController extends Controller
         $audio_url = "";
         $audio_duration = 0;
         if (Request::file('audio')) {
-           $audio_url =  request()->file('audio')->store('audio');
+            $audio = request()->file('audio');
+            $name = $audio->getClientOriginalName();
+            $extension = $audio->getClientOriginalExtension();
+            $audio_url =  request()->file('audio')->storeAs('audio', time().'-'.$name);
            $audio = new Mp3Info('storage/'.$audio_url);
            $audio_duration = $audio->duration;
 
@@ -122,6 +125,8 @@ class BrandStationsController extends Controller
 
     public function edit(BrandStation $brandStation)
     {
+       
+        $audio_link = isset($brandStation->audio_url) && $brandStation->audio_url ? url('storage/'.optional($brandStation)->audio_url) : null;
         return Inertia::render('BrandStations/Edit', [
             'station' => [
                 'id' => $brandStation->id,
@@ -131,7 +136,9 @@ class BrandStationsController extends Controller
                 'artwork_image' => $brandStation->artwork_image,
                 'description' => $brandStation->description,
                 'long_description' => $brandStation->long_description,
-                'photoExist' => file_exists( public_path() . '/storage/photos/'.$brandStation->id) ? true : false
+                'photoExist' => file_exists( public_path() . '/storage/photos/'.$brandStation->id) ? true : false,
+                'audio_url' => $audio_link,
+                'audio_name' => $brandStation->audio_url,
             ],
         ]);
     }
@@ -156,13 +163,18 @@ class BrandStationsController extends Controller
         $audio_url = "";
         $audio_duration = 0;
         if (Request::file('audio')) {
-           $audio_url =  request()->file('audio')->store('audio');
+
+            $audio = request()->file('audio');
+            $name = $audio->getClientOriginalName();
+            $extension = $audio->getClientOriginalExtension();
+            $audio_url =  request()->file('audio')->storeAs('audio', time().'-'.$name);
+
            $audio = new Mp3Info('storage/'.$audio_url);
            $audio_duration = $audio->duration;
-           //dd($audio_duration);
+           $brandStation->update(['audio_url' => $audio_url, 'audio_duration' => $audio_duration]);
         }
 
-        $brandStation->update(['audio_url' => $audio_url, 'audio_duration' => $audio_duration]);
+       
         return Redirect::back()->with('success', 'Brand station updated.');
     }
 
@@ -196,12 +208,24 @@ class BrandStationsController extends Controller
      }
 
      public function brandStations(BrandStation $brandStation) {
+        
 
-        request()->merge(['isFavorite' => true]);
-        $station_res = new StationResource($brandStation);
-
+         // abort_if(!auth()->user()->owner, 403);
+                Request::validate([
+                    'udid' => ['required'],
+                ]);
          
-        return response()->json($station_res);
+               $sortedStation[] = [
+                'station_id' => $brandStation->id,
+                'udid' => request()->udid,
+                'sorted_number' => 0,
+               ];
+
+               
+               SortedStation::insert($sortedStation);
+               request()->merge(['isFavorite' => true]);
+               $station_res = new StationResource($brandStation);
+                return response()->json($station_res);
      
      }
 

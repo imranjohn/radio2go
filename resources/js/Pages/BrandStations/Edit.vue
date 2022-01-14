@@ -18,7 +18,7 @@
           <text-input v-model="form.description" :error="form.errors.description" class="pr-6 pb-8 w-full lg:w-1/1" label="Description" />
           <textarea-input v-model="form.long_description" :error="form.errors.long_description" class="pr-6 pb-8 w-full lg:w-1/1" label="Long Description" />
           <file-input v-model="form.photo" :error="form.errors.photo" class="pr-6 pb-8 w-full lg:w-1/2" type="file" accept="image/*" label="Photo" />
-          <file-input v-model="form.audio" :error="form.errors.audio" class="pr-6 pb-8 w-full lg:w-1/2" type="file" accept="audio/*" label="Audio" />
+          <audio-file-input v-model="form.audio" :error="form.errors.audio" :audioLink="station.audio_url" :audioName="station.audio_name" class="pr-6 pb-8 w-full lg:w-1/2" type="file" accept="audio/*" label="Audio" />
           <img v-if="station.photoExist" class="object-contain h-48 w-full" :src="'/storage/photos/'+station.id || 'logo_round.png'" />
         </div>
         <div class="px-8 py-4 bg-gray-50 border-t border-gray-100 flex items-center">
@@ -38,6 +38,7 @@ import TextareaInput from '@/Shared/TextareaInput'
 import LoadingButton from '@/Shared/LoadingButton'
 import TrashedMessage from '@/Shared/TrashedMessage'
 import FileInput from '@/Shared/FileInput'
+import AudioFileInput from '@/Shared/AudioFileInput'
 
 export default {
   metaInfo() {
@@ -49,6 +50,8 @@ export default {
     TextareaInput,
     TrashedMessage,
     FileInput,
+    AudioFileInput,
+    
   },
   layout: Layout,
   props: {

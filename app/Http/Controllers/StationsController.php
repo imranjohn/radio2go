@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Http\Resources\StationResource;
+use App\Models\BrandStation;
+use App\Models\SortedStation;
 use App\Models\Station;
 use Illuminate\Support\Facades\Request;
 use Illuminate\Support\Facades\Auth;
@@ -16,7 +18,7 @@ class StationsController extends Controller
         abort_if(!auth()->user()->owner, 403);
         return Inertia::render('Stations/Index', [
             'filters' => Request::all('search', 'trashed'),
-            'stations' => Station::orderBy('id', 'desc')
+            'stations' => BrandStation::where('is_branded_station', false)->orderBy('id', 'desc')
                 ->filter(Request::only('search', 'trashed'))
                 ->paginate(10)
                 ->withQueryString()
@@ -39,8 +41,9 @@ class StationsController extends Controller
 
     public function store()
     {
+      
         abort_if(!auth()->user()->owner, 403);
-        Station::create(
+        BrandStation::create(
             Request::validate([
                 'name' => ['required', 'max:100'],
                 'stream_url' => ['required', 'max:200'],
@@ -48,13 +51,13 @@ class StationsController extends Controller
                 'artwork_image' => ['nullable'],
                 'description' => ['required'],
                 'long_description' => ['nullable'],
-            ])
+            ])+['is_branded_station' => false]
         );
 
         return Redirect::route('stations.index')->with('success', 'Station created.');
     }
 
-    public function edit(Station $station)
+    public function edit(BrandStation $station)
     {
         abort_if(!auth()->user()->owner, 403);
         return Inertia::render('Stations/Edit', [
@@ -70,7 +73,7 @@ class StationsController extends Controller
         ]);
     }
 
-    public function update(Station $station)
+    public function update(BrandStation $station)
     {
         abort_if(!auth()->user()->owner, 403);
         $station->update(
@@ -87,7 +90,7 @@ class StationsController extends Controller
         return Redirect::back()->with('success', 'Station updated.');
     }
 
-    public function destroy(Station $station)
+    public function destroy(BrandStation $station)
     {
         abort_if(!auth()->user()->owner, 403);
         $station->delete();
@@ -95,7 +98,7 @@ class StationsController extends Controller
         return Redirect::route('stations.index')->with('success', 'Station deleted.');
     }
 
-    public function restore(Station $station)
+    public function restore(BrandStation $station)
     {
         abort_if(!auth()->user()->owner, 403);
         $station->restore();
@@ -105,17 +108,69 @@ class StationsController extends Controller
 
 
     public function stations() {
+      
        // abort_if(!auth()->user()->owner, 403);
-        
-        $station = StationResource::collection(Station::all());
+        Request::validate([
+         'udid' => ['required'],
+        ]);
+      
+        if(SortedStation::where('udid', request()->udid)->count()){
+          //  $station = SortedStation::where('udid', request()->udid)->get();
+           $station  = SortedStation::where('udid', request()->udid)->orderBy('sorted_number', 'asc')->get();
+           $stations =  StationResource::collection($station);
+        } else {
 
+            $stations = BrandStation::where('is_branded_station', false)->get();
+            foreach($stations as $key => $value){
+
+                $sortedStation[] = [
+                    'station_id' => $value->id,
+                    'udid' => request()->udid,
+                    'sorted_number' => $key+1,
+                ];
+            }
+
+            SortedStation::insert($sortedStation);
+            $station  = SortedStation::where('udid', request()->udid)->orderBy('sorted_number', 'asc')->get();
+            $stations =  StationResource::collection($station);
+           
+        }
+       
         $data = [
-            'station' => $station
+            'station' => $stations
         ];
         return response()->json($data);
     }
 
-    public function duplicateStation(Station $station) {
+    public function sortStations() {
+
+        Request::validate([
+            'udid' => ['required'],
+            'sorted_stations' => ['required']
+        ]);
+
+        $received_stations = json_decode(request()->sorted_stations);
+
+        foreach($received_stations->stations as $key => $value){
+
+            $sortedStation[] = [
+                'station_id' => $value->station_id,
+                'udid' => request()->udid,
+                'sorted_number' => $value->sort_number,
+            ];
+        }
+        SortedStation::where('udid', request()->udid)->delete();
+        SortedStation::insert($sortedStation);
+        $station  = SortedStation::where('udid', request()->udid)->orderBy('sorted_number', 'asc')->get();
+        $stations =  StationResource::collection($station);
+        $data = [
+            'station' => $stations
+        ];
+        return response()->json($data);
+
+    }
+
+    public function duplicateStation(BrandStation $station) {
         abort_if(!auth()->user()->owner, 403);
         $new = $station->replicate();
         $new->name = "Duplicate of ($station->name)";

@@ -28,4 +28,8 @@ class BrandStation extends Model
             }
         });
     }
+
+    public function sorted() {
+       // return $this->hasMany(SortedStation::class, 's');
+    }
 }

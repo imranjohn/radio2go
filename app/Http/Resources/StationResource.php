@@ -16,8 +16,10 @@ class StationResource extends JsonResource
     public function toArray($request)
     {
          
-      $audio_link = isset($this->audio_url) && file_exists('storage/'.$this->audio_url) ? url('storage/'.$this->audio_url) : null;
+      $audio_link = isset(optional($this->station)->audio_url) && file_exists('storage/'.optional($this->station)->audio_url) ? url('storage/'.optional($this->station)->audio_url) : null;
     
+      if($request->isFavorite){
+        $audio_link = isset(optional($this)->audio_url) && file_exists('storage/'.optional($this)->audio_url) ? url('storage/'.optional($this)->audio_url) : null;
         return [
             'id' => $this->id,
             'name' => $this->name,
@@ -28,7 +30,22 @@ class StationResource extends JsonResource
             'longDesc' => $this->long_description,
             'audio_url' => $audio_link,
             'audio_duration' => $this->audio_duration,
-            'isFavorite' => $request->isFavorite ? true : false
+            'isFavorite' => $this->is_branded_station ? true : false,
+            'sorted' => $this->sorted_number
+        ]; 
+    }
+        return [
+            'id' => optional($this->station)->id,
+            'name' => optional($this->station)->name,
+            'streamURL' => optional($this->station)->stream_url,
+            'imageURL' => optional($this->station)->image_url,
+            'artworkImage' => optional($this->station)->artwork_image,
+            'desc' => optional($this->station)->description,
+            'longDesc' => optional($this->station)->long_description,
+            'audio_url' => $audio_link,
+            'audio_duration' => optional($this->station)->audio_duration,
+            'isFavorite' => optional($this->station)->is_branded_station ? true : false,
+            'sorted' => $this->sorted_number
         ];
 
         
