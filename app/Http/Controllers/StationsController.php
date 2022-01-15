@@ -117,6 +117,18 @@ class StationsController extends Controller
         if(SortedStation::where('udid', request()->udid)->count()){
           //  $station = SortedStation::where('udid', request()->udid)->get();
            $station  = SortedStation::where('udid', request()->udid)->orderBy('sorted_number', 'asc')->get();
+          
+           $newStations = BrandStation::where('is_branded_station', false)->whereNotIn('id', $station->pluck('station_id')->toArray())->get();
+           foreach($newStations as $key => $value){
+
+            $sortedStation[] = [
+                'station_id' => $value->id,
+                'udid' => request()->udid,
+                'sorted_number' => 0,
+            ];
+           }
+           SortedStation::insert($sortedStation);
+           $station  = SortedStation::where('udid', request()->udid)->orderBy('sorted_number', 'asc')->get();
            $stations =  StationResource::collection($station);
         } else {
 
