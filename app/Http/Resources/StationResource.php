@@ -35,7 +35,7 @@ class StationResource extends JsonResource
         ]; 
     }
         return [
-            'ids' => 'here',
+            'ids' => $this->station_id,
             'id' => optional($this->station)->id,
             'name' => optional($this->station)->name,
             'streamURL' => optional($this->station)->stream_url,
