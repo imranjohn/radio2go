@@ -18,7 +18,7 @@ class StationResource extends JsonResource
          
       $audio_link = isset(optional($this->station)->audio_url) && file_exists('storage/'.optional($this->station)->audio_url) ? url('storage/'.optional($this->station)->audio_url) : null;
     
-      if($request->isFavorite){
+      if($request->isFavorite && $this->id){
         $audio_link = isset(optional($this)->audio_url) && file_exists('storage/'.optional($this)->audio_url) ? url('storage/'.optional($this)->audio_url) : null;
         return [
             'id' => $this->id,
