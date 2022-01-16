@@ -119,6 +119,7 @@ class StationsController extends Controller
            $station  = SortedStation::where('udid', request()->udid)->orderBy('sorted_number', 'asc')->get();
           
            $newStations = BrandStation::where('is_branded_station', false)->whereNotIn('id', $station->pluck('station_id')->toArray())->get();
+           $sortedStation = [];
            foreach($newStations as $key => $value){
 
             $sortedStation[] = [
@@ -127,7 +128,11 @@ class StationsController extends Controller
                 'sorted_number' => 0,
             ];
            }
-           SortedStation::insert($sortedStation);
+           
+           if(!empty($sortedStation)){
+            SortedStation::insert($sortedStation);
+           }
+         
            $station  = SortedStation::where('udid', request()->udid)->orderBy('sorted_number', 'asc')->get();
            $stations =  StationResource::collection($station);
         } else {
