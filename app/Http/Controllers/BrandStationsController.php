@@ -180,13 +180,15 @@ class BrandStationsController extends Controller
 
     public function destroy(BrandStation $brandStation)
     {
+        $id = $brandStation->id;
         $brandStation->delete();
-
+        SortedStation::where('station_id', $id)->delete();
         return Redirect::route('brand-stations.index')->with('success', 'Brand station deleted.');
     }
 
     public function restore(BrandStation $brandStation)
     {
+        
         $brandStation->restore();
 
         return Redirect::back()->with('success', 'Brand station restored.');
@@ -221,7 +223,6 @@ class BrandStationsController extends Controller
                 'sorted_number' => 0,
                ];
 
-               
                SortedStation::insert($sortedStation);
                request()->merge(['isFavorite' => true]);
                $station_res = new StationResource($brandStation);

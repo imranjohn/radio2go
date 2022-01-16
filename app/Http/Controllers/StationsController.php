@@ -93,8 +93,9 @@ class StationsController extends Controller
     public function destroy(BrandStation $station)
     {
         abort_if(!auth()->user()->owner, 403);
+        $id = $station->id;
         $station->delete();
-
+        SortedStation::where('station_id', $id)->delete();
         return Redirect::route('stations.index')->with('success', 'Station deleted.');
     }
 
