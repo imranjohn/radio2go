@@ -171,7 +171,7 @@ class StationsController extends Controller
         Log::info(request()->all());
 
         $received_stations = json_decode(request()->sorted_stations);
-
+        Log::info((array)$received_stations);
         foreach($received_stations->stations as $key => $value){
 
             $sortedStation[] = [
