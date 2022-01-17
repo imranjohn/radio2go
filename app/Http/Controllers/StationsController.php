@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
 use Inertia\Inertia;
+use Illuminate\Support\Facades\Log;
 
 class StationsController extends Controller
 {
@@ -166,6 +167,8 @@ class StationsController extends Controller
             'udid' => ['required'],
             'sorted_stations' => ['required']
         ]);
+
+        Log::info(request()->all());
 
         $received_stations = json_decode(request()->sorted_stations);
 
