@@ -223,7 +223,11 @@ class BrandStationsController extends Controller
                 'sorted_number' => 0,
                ];
 
-               SortedStation::insert($sortedStation);
+               $count = SortedStation::where('station_id', $brandStation->id)->where('udid', request()->udid)->count();
+               if($count < 1){
+                SortedStation::insert($sortedStation);
+               }
+               
                request()->merge(['isFavorite' => true]);
                $station_res = new StationResource($brandStation);
                 return response()->json($station_res);
