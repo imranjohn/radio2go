@@ -117,8 +117,14 @@ class BrandStationsController extends Controller
           return redirect()->back()->with('error', $short_url->error->message);
        } else {
         $shortLink = $short_url->shortLink;
-        $brandStation->update(['deep_link' => $shortLink, 'audio_url' => $audio_url, 'audio_duration' => $audio_duration, 'created_by' => auth()->user()->id]);
-        return Redirect::route('brand-stations.index')->with('success', 'Brand station created.');
+        $brandStation->update(['deep_link' => $shortLink, 'audio_url' => $audio_url, 'audio_duration' => $audio_duration, 'created_by' => auth()->user() ? auth()->user()->id: 1]);
+
+        if(auth()->user()){
+            return Redirect::route('brand-stations.index')->with('success', 'Brand station created.');
+        } else {
+            return response()->json($brandStation);
+        }
+        
        }
     }
      

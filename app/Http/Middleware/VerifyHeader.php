@@ -16,11 +16,11 @@ class VerifyHeader
      */
     public function handle(Request $request, Closure $next)
     {
-        // if($request->header('Accept') !== 'application/json'){
-        //     return response()->json([
-        //         "message" => "Accept in header is missing it should be application/json to proceed"
-        //     ]);
-        // }
+        if($request->header('Accept') !== 'application/json'){
+            return response()->json([
+                "message" => "Accept in header is missing it should be application/json to proceed"
+            ]);
+        }
         return $next($request);
     }
 }
