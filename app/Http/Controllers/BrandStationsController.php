@@ -222,7 +222,11 @@ class BrandStationsController extends Controller
                 Request::validate([
                     'udid' => ['required'],
                 ]);
-         
+                
+               if($brandStation->deleted_at){
+                    return response()->json(['message' => 'Station does not exists']);
+               }
+
                $sortedStation[] = [
                 'station_id' => $brandStation->id,
                 'udid' => request()->udid,
