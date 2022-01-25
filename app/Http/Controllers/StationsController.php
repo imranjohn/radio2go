@@ -167,16 +167,16 @@ class StationsController extends Controller
             'udid' => ['required'],
             'sorted_stations' => ['required']
         ]);
-        Log::info("====================== Request all ============");
-        Log::info(request()->all());
-        Log::info("====================== Request all end ============");
+        // Log::info("====================== Request all ============");
+        // Log::info(request()->all());
+        // Log::info("====================== Request all end ============");
 
 
         $received_stations = json_decode(request()->sorted_stations);
 
-        Log::info("====================== Json decode all ============");
-        Log::info((array)$received_stations);
-        Log::info("====================== Json decode end ============");
+        // Log::info("====================== Json decode all ============");
+        // Log::info((array)$received_stations);
+        // Log::info("====================== Json decode end ============");
         foreach($received_stations->stations as $key => $value){
 
             $sortedStation[] = [
@@ -186,9 +186,9 @@ class StationsController extends Controller
             ];
         }
 
-        Log::info("====================== Sorted array ============");
-        Log::info($sortedStation);
-        Log::info("====================== Sorted array end ============");
+        // Log::info("====================== Sorted array ============");
+        // Log::info($sortedStation);
+        // Log::info("====================== Sorted array end ============");
         SortedStation::where('udid', request()->udid)->delete();
         SortedStation::insert($sortedStation);
         $station  = SortedStation::where('udid', request()->udid)->orderBy('sorted_number', 'asc')->get();
