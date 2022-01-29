@@ -17,9 +17,9 @@
           <text-input v-model="form.artwork_image" :error="form.errors.artwork_image" class="pr-6 pb-8 w-full lg:w-1/2" label="Artwork url" />
           <text-input v-model="form.description" :error="form.errors.description" class="pr-6 pb-8 w-full lg:w-1/1" label="Description" />
           <textarea-input v-model="form.long_description" :error="form.errors.long_description" class="pr-6 pb-8 w-full lg:w-1/1" label="Long Description" />
-          <file-input v-model="form.photo" :error="form.errors.photo" class="pr-6 pb-8 w-full lg:w-1/2" type="file" accept="image/*" label="Photo" />
+          <file-input v-model="form.photo" :error="form.errors.photo" :logoName="station.logo_name" :logoUrlLink="station.logo_url_link" class="pr-6 pb-8 w-full lg:w-1/2" type="file" accept="image/*" label="Photo" />
           <audio-file-input v-model="form.audio" :error="form.errors.audio" :audioLink="station.audio_url" :audioName="station.audio_name" class="pr-6 pb-8 w-full lg:w-1/2" type="file" accept="audio/*" label="Audio" />
-          <img v-if="station.photoExist" class="object-contain h-48 w-full" :src="'/storage/photos/'+station.id || 'logo_round.png'" />
+          <img v-if="station.logo_url_link" class="object-contain h-48 w-full" :src="station.logo_url_link || 'logo_round.png'" />
         </div>
         <div class="px-8 py-4 bg-gray-50 border-t border-gray-100 flex items-center">
           <button v-if="!station.deleted_at" class="text-red-600 hover:underline" tabindex="-1" type="button" @click="destroy">Delete Brand Station</button>

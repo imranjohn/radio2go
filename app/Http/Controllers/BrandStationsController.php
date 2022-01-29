@@ -60,7 +60,11 @@ class BrandStationsController extends Controller
         );
 
         if (Request::file('photo')) {
-          request()->file('photo')->storeAs('photos', $brandStation->id);
+            $photo = request()->file('photo');
+            $name = $photo->getClientOriginalName();
+            $extension = $photo->getClientOriginalExtension();
+           $logo_url = request()->file('photo')->storeAs('photos', $brandStation->id.'-'.$name);
+           $brandStation->update(['logo_url' => $logo_url]);
         }
 
         $audio_url = "";
@@ -133,6 +137,14 @@ class BrandStationsController extends Controller
     {
        
         $audio_link = isset($brandStation->audio_url) && $brandStation->audio_url ? url('storage/'.optional($brandStation)->audio_url) : null;
+        if (file_exists(public_path('/storage/'.$brandStation->logo_url)) && $brandStation->logo_url) {
+            $logo_url_link = url('storage/'.optional($brandStation)->logo_url);
+        } elseif(file_exists( public_path() . '/storage/photos/'.$brandStation->id)){
+            $logo_url_link = url('storage/photos/'.$brandStation->id);
+        } else {
+            $logo_url_link = null;
+        }
+       // $logo_url_link = isset($brandStation->logo_url) && $brandStation->logo_url ? url('storage/'.optional($brandStation)->logo_url) : null;
         return Inertia::render('BrandStations/Edit', [
             'station' => [
                 'id' => $brandStation->id,
@@ -145,6 +157,8 @@ class BrandStationsController extends Controller
                 'photoExist' => file_exists( public_path() . '/storage/photos/'.$brandStation->id) ? true : false,
                 'audio_url' => $audio_link,
                 'audio_name' => $brandStation->audio_url,
+                'logo_url_link' => $logo_url_link,
+                'logo_name' => $brandStation->logo_url
             ],
         ]);
     }
@@ -163,7 +177,11 @@ class BrandStationsController extends Controller
             ])
         );
         if (Request::file('photo')) {
-            request()->file('photo')->storeAs('photos', $brandStation->id);
+            $photo = request()->file('photo');
+            $name = $photo->getClientOriginalName();
+            $extension = $photo->getClientOriginalExtension();
+            $logo_url = request()->file('photo')->storeAs('photos', $brandStation->id.'-'.$name);
+            $brandStation->update(['logo_url' => $logo_url]);
         }
 
         $audio_url = "";
@@ -205,11 +223,14 @@ class BrandStationsController extends Controller
 
         $brand_name = 'brand_stations';
         $deep_link = $brandStation->deep_link;
-       
-        $path = 'logo_round.png';
-        if (file_exists( public_path() . '/storage/photos/'.$brandStation->id)) {
+    
+        if (file_exists(public_path('/storage/'.$brandStation->logo_url)) && $brandStation->logo_url) {
+            $path = 'storage/'.$brandStation->logo_url;
+        } elseif(file_exists( public_path() . '/storage/photos/'.$brandStation->id)){
             $path = 'storage/photos/'.$brandStation->id;
-        } 
+        } else {
+            $path = 'logo_round.png';
+        }
            // return response()->download($image);
         return view('mobile', compact('deep_link', 'path'));
          

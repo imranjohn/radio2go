@@ -19,6 +19,7 @@
       </div>
     </div>
     <div v-if="errors.length" class="form-error">{{ errors[0] }}</div>
+    <p v-if="logoUrlLink" class="text-red-500 text-xs"><a target="_blank" :href="logoUrlLink" class="no-underline hover:underline ...">{{logoName}}</a></p>
   </div>
 </template>
 
@@ -32,6 +33,8 @@ export default {
       type: Array,
       default: () => [],
     },
+    logoUrlLink: String,
+    logoName: String,
   },
   watch: {
     value(value) {
