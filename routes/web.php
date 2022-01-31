@@ -83,6 +83,7 @@ Route::get('qr-code-viewwer/{brandStation}', [BrandStationsController::class, 'q
 Route::post('brand-stations/{brandStation}', [BrandStationsController::class, 'duplicateBrandStation'])->name('brand-stations.duplicate');
 Route::post('brand-stations/update/{brandStation}', [BrandStationsController::class, 'update'])->name('brand-stations.updateNew');
 Route::post('stations/{station}', [StationsController::class, 'duplicateStation'])->name('stations.duplicate');
+Route::post('brand-station-status/{brandStation}', [BrandStationsController::class, 'toggleStatus'])->name('brand-stations.toggleStation');
 
 Route::get('generate-link', function() {
 

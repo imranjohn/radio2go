@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
 use Inertia\Inertia;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Database\Eloquent\Builder;
 
 class StationsController extends Controller
 {
@@ -135,11 +136,13 @@ class StationsController extends Controller
             SortedStation::insert($sortedStation);
            }
          
-           $station  = SortedStation::where('udid', request()->udid)->orderBy('sorted_number', 'asc')->get();
+           $station  = SortedStation::where('udid', request()->udid)->whereHas('station', function(Builder $query){
+            $query->where('is_active', true);
+           })->orderBy('sorted_number', 'asc')->get();
            $stations =  StationResource::collection($station);
         } else {
 
-            $stations = BrandStation::where('is_branded_station', false)->orderBy('name', 'asc')->get();
+            $stations = BrandStation::where('is_branded_station', false)->where('is_active', true)->orderBy('name', 'asc')->get();
             foreach($stations as $key => $value){
 
                 $sortedStation[] = [
@@ -150,7 +153,9 @@ class StationsController extends Controller
             }
 
             SortedStation::insert($sortedStation);
-            $station  = SortedStation::where('udid', request()->udid)->orderBy('sorted_number', 'asc')->get();
+            $station  = SortedStation::where('udid', request()->udid)->whereHas('station', function(Builder $query){
+                $query->where('is_active', true);
+            })->orderBy('sorted_number', 'asc')->get();
             $stations =  StationResource::collection($station);
            
         }

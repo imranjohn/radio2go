@@ -11,6 +11,7 @@ use Inertia\Inertia;
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
 use wapmorgan\Mp3Info\Mp3Info;
 use App\Models\SortedStation;
+use Illuminate\Database\Eloquent\Builder;
 
 class BrandStationsController extends Controller
 {
@@ -158,7 +159,8 @@ class BrandStationsController extends Controller
                 'audio_url' => $audio_link,
                 'audio_name' => $brandStation->audio_url,
                 'logo_url_link' => $logo_url_link,
-                'logo_name' => $brandStation->logo_url
+                'logo_name' => $brandStation->logo_url,
+                'is_active' => $brandStation->is_active,
             ],
         ]);
     }
@@ -243,8 +245,8 @@ class BrandStationsController extends Controller
                 Request::validate([
                     'udid' => ['required'],
                 ]);
-                
-               if($brandStation->deleted_at){
+               
+               if($brandStation->deleted_at || !(boolean)$brandStation->is_active){
                     return response()->json(['message' => 'Station does not exists']);
                }
 
@@ -254,7 +256,9 @@ class BrandStationsController extends Controller
                 'sorted_number' => 0,
                ];
 
-               $count = SortedStation::where('station_id', $brandStation->id)->where('udid', request()->udid)->count();
+               $count = SortedStation::where('station_id', $brandStation->id)->where('udid', request()->udid)->whereHas('station', function(Builder $query){
+                //$query->where('is_active', true);
+               })->count();
                if($count < 1){
                 SortedStation::insert($sortedStation);
                }
@@ -317,5 +321,12 @@ class BrandStationsController extends Controller
 
        
        
+     }
+
+     public function toggleStatus(BrandStation $brandStation) {
+      
+        $brandStation->update(['is_active' => !$brandStation->is_active]);    
+        
+        return Redirect::back()->with('success', 'Brand station updated.');
      }
 }
