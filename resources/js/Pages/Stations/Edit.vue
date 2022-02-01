@@ -5,6 +5,11 @@
       <span class="text-indigo-400 font-medium">/</span>
       {{ form.name }}
     </h1>
+    <div class="mb-6 flex justify-between items-center">
+      <div class="w-full max-w-md mr-4">
+      </div>
+      <button :loading="form.processing" class="btn-indigo ml-auto" :class="{ 'bg-red-600': station.is_active, 'bg-green-600': !station.is_active }" type="button" @click="toggleStation">{{status}}</button>
+    </div>
     <trashed-message v-if="station.deleted_at" class="mb-6" @restore="restore">
       This station has been deleted.
     </trashed-message>
@@ -60,6 +65,7 @@ export default {
         description: this.station.description,
         long_description: this.station.long_description,
       }),
+      status: this.station.is_active ? 'Deactive' : 'Active',
     }
   },
   methods: {
@@ -75,6 +81,20 @@ export default {
       if (confirm('Are you sure you want to duplicate this station?')) {
         this.$inertia.post(this.route('stations.duplicate', this.station.id))
       }
+    },
+    toggleStation(){
+      if (confirm('Are you sure you want '+this.status+' this station?')) {
+        this.$inertia.post(this.route('brand-stations.toggleStation', this.station.id))
+
+        if(this.status === 'Active'){
+          this.status = 'Deactive'
+        } else {
+          this.status = 'Active'
+        }
+
+       
+      }
+      
     },
     restore() {
       if (confirm('Are you sure you want to restore this station?')) {

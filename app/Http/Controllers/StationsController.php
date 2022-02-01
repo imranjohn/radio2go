@@ -71,6 +71,7 @@ class StationsController extends Controller
                 'artwork_image' => $station->artwork_image,
                 'description' => $station->description,
                 'long_description' => $station->long_description,
+                'is_active' => $station->is_active,
             ],
         ]);
     }

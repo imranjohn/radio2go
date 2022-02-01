@@ -324,9 +324,9 @@ class BrandStationsController extends Controller
      }
 
      public function toggleStatus(BrandStation $brandStation) {
-      
+    
         $brandStation->update(['is_active' => !$brandStation->is_active]);    
         
-        return Redirect::back()->with('success', 'Brand station updated.');
+        return Redirect::back()->with('success', 'Station updated.');
      }
 }
