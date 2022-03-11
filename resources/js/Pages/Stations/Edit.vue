@@ -22,6 +22,7 @@
           <text-input v-model="form.artwork_image" :error="form.errors.artwork_image" class="pr-6 pb-8 w-full lg:w-1/2" label="Artwork url" />
           <text-input v-model="form.description" :error="form.errors.description" class="pr-6 pb-8 w-full lg:w-1/1" label="Description" />
           <textarea-input v-model="form.long_description" :error="form.errors.long_description" class="pr-6 pb-8 w-full lg:w-1/1" label="Long Description" />
+          <file-input v-model="form.background" :error="form.errors.background" :logoName="station.html_background_image" :logoUrlLink="station.html_background_image" class="pr-6 pb-8 w-full lg:w-1/2" type="file" accept="image/*" label="Html Background" />
         </div>
         <div class="px-8 py-4 bg-gray-50 border-t border-gray-100 flex items-center">
           <button v-if="!station.deleted_at" class="text-red-600 hover:underline" tabindex="-1" type="button" @click="destroy">Delete Station</button>
@@ -39,6 +40,7 @@ import TextInput from '@/Shared/TextInput'
 import TextareaInput from '@/Shared/TextareaInput'
 import LoadingButton from '@/Shared/LoadingButton'
 import TrashedMessage from '@/Shared/TrashedMessage'
+import FileInput from '@/Shared/FileInput'
 
 export default {
   metaInfo() {
@@ -48,6 +50,7 @@ export default {
     LoadingButton,
     TextInput,
     TextareaInput,
+    FileInput,
     TrashedMessage,
   },
   layout: Layout,
@@ -64,13 +67,14 @@ export default {
         artwork_image: this.station.artwork_image,
         description: this.station.description,
         long_description: this.station.long_description,
+        background: null,
       }),
       status: this.station.is_active ? 'Deactive' : 'Active',
     }
   },
   methods: {
     update() {
-      this.form.put(this.route('stations.update', this.station.id))
+      this.form.post(this.route('stations.updateNew', this.station.id).url())
     },
     destroy() {
       if (confirm('Are you sure you want to delete this station?')) {

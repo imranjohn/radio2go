@@ -14,6 +14,7 @@ use Illuminate\Support\Facades\Route;
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
 use Kreait\Firebase\DynamicLink\CreateDynamicLink;
 use Kreait\Firebase\DynamicLink\CreateDynamicLink\FailedToCreateDynamicLink;
+use Illuminate\Support\Facades\File;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -82,6 +83,7 @@ Route::resource('brand-stations', BrandStationsController::class)->middleware('a
 Route::get('qr-code-viewwer/{brandStation}', [BrandStationsController::class, 'qrCodeGenerator'])->name('brand-station.qrCodeGenerator');
 Route::post('brand-stations/{brandStation}', [BrandStationsController::class, 'duplicateBrandStation'])->name('brand-stations.duplicate');
 Route::post('brand-stations/update/{brandStation}', [BrandStationsController::class, 'update'])->name('brand-stations.updateNew');
+Route::post('stations/update/{brandStation}', [BrandStationsController::class, 'update'])->name('stations.updateNew');
 Route::post('stations/{station}', [StationsController::class, 'duplicateStation'])->name('stations.duplicate');
 Route::post('brand-station-status/{brandStation}', [BrandStationsController::class, 'toggleStatus'])->name('brand-stations.toggleStation');
 
@@ -180,6 +182,20 @@ Route::get('reports', [ReportsController::class, 'index'])
 Route::get('/img/{path}', [ImagesController::class, 'show'])
     ->where('path', '.*')
     ->name('image');
+Route::get('/create-html-for-radio/{brandStation}', function(BrandStation $brandStation) {
 
+    
+    $logo = $brandStation->is_branded_station ? url('storage/'.optional($brandStation)->logo_url): "https://appadmin.radio2go.fm/logo.png";
+    $background_image = $brandStation->is_branded_station ? url('storage/'.optional($brandStation)->html_background_image) : "https://appadmin.radio2go.fm/images/Background_m_logo2.png";
+
+
+   // return view('html', compact('brandStation', 'logo', 'background_image'));
+
+    $data = view('html', compact('brandStation', 'logo', 'background_image'));
+	  
+    $jsongFile = 'radio-html-'.$brandStation->id.'.html';
+    File::put(public_path('/storage/upload/html/'.$jsongFile), $data);
+    return response()->download(public_path('/storage/upload/html/'.$jsongFile));
+})->name('create.html');
 
    

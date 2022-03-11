@@ -23,6 +23,7 @@
           <text-input v-model="form.description" :error="form.errors.description" class="pr-6 pb-8 w-full lg:w-1/1" label="Description" />
           <textarea-input v-model="form.long_description" :error="form.errors.long_description" class="pr-6 pb-8 w-full lg:w-1/1" label="Long Description" />
           <file-input v-model="form.photo" :error="form.errors.photo" :logoName="station.logo_name" :logoUrlLink="station.logo_url_link" class="pr-6 pb-8 w-full lg:w-1/2" type="file" accept="image/*" label="Photo" />
+          <file-input v-model="form.background" :error="form.errors.background" :logoName="station.html_background_image" :logoUrlLink="station.html_background_image" class="pr-6 pb-8 w-full lg:w-1/2" type="file" accept="image/*" label="Html Background" />
           <audio-file-input v-model="form.audio" :error="form.errors.audio" :audioLink="station.audio_url" :audioName="station.audio_name" class="pr-6 pb-8 w-full lg:w-1/2" type="file" accept="audio/*" label="Audio" />
           <img v-if="station.logo_url_link" class="object-contain h-48 w-full" :src="station.logo_url_link || 'logo_round.png'" />
         </div>
@@ -74,6 +75,7 @@ export default {
         long_description: this.station.long_description,
         photo: null,
         audio: null,
+        background: null,
        
       }),
       status: this.station.is_active ? 'Deactive' : 'Active',

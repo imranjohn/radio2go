@@ -24,6 +24,7 @@
           <th class="px pt-6 pb-4">Description</th>
           <th class="px-6 pt-6 pb-4 w-44">QR code</th>
           <th class="px-6 pt-6 pb-4 w-44">Deep Link</th>
+          <th class="px-6 pt-6 pb-4 w-44">Create Html</th>
           <th class="px-6 pt-6 pb-4">Action</th>
         </tr>
         <tr v-for="station in stations.data" :key="station.id" class="hover:bg-gray-100 focus-within:bg-gray-100">
@@ -61,6 +62,12 @@
               </div> -->
               Copy Link
             </a>
+          </td>
+          <td class="border-t ">
+            <a :href="route('create.html', station.id)" target="_blank" class=" ml-7 float-left	">Create Html</a>
+            <!-- <inertia-link class=" ml-7 float-left	" :href="route('create.html', station.id)" target="_blank" tabindex="-1">
+             Create Html
+            </inertia-link> -->
           </td>
           <td class="border-t">
             <inertia-link class=" ml-7 float-left	" :href="route('brand-stations.edit', station.id)" tabindex="-1">

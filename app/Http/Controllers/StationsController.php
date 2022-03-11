@@ -43,9 +43,10 @@ class StationsController extends Controller
 
     public function store()
     {
-      
+    
         abort_if(!auth()->user()->owner, 403);
-        BrandStation::create(
+        
+        $brandStation =  BrandStation::create(
             Request::validate([
                 'name' => ['required', 'max:100'],
                 'stream_url' => ['required', 'max:200'],
@@ -56,12 +57,26 @@ class StationsController extends Controller
             ])+['is_branded_station' => false]
         );
 
+        if (Request::file('background')) {
+            $background = request()->file('background');
+            $name = $background->getClientOriginalName();
+            $extension = $background ->getClientOriginalExtension();
+           $html_background_image = request()->file('background')->storeAs('html_background', $brandStation->id.'-'.$name);
+           $brandStation->update(['html_background_image' => $html_background_image]);
+        }
+
         return Redirect::route('stations.index')->with('success', 'Station created.');
     }
 
     public function edit(BrandStation $station)
     {
         abort_if(!auth()->user()->owner, 403);
+
+        if (file_exists(public_path('/storage/'.$station->html_background_image)) && $station->html_background_image) {
+            $html_background_image = url('storage/'.optional($station)->html_background_image);
+        } else {
+            $html_background_image = null;
+        }
         return Inertia::render('Stations/Edit', [
             'station' => [
                 'id' => $station->id,
@@ -71,6 +86,7 @@ class StationsController extends Controller
                 'artwork_image' => $station->artwork_image,
                 'description' => $station->description,
                 'long_description' => $station->long_description,
+                'html_background_image' => $html_background_image,
                 'is_active' => $station->is_active,
             ],
         ]);
@@ -79,6 +95,7 @@ class StationsController extends Controller
     public function update(BrandStation $station)
     {
         abort_if(!auth()->user()->owner, 403);
+        dd(request()->all());
         $station->update(
             Request::validate([
                 'name' => ['required', 'max:100'],
@@ -89,6 +106,15 @@ class StationsController extends Controller
                 'long_description' => ['nullable'],
             ])
         );
+
+        if (Request::file('background')) {
+        
+            $background = request()->file('background');
+            $name = $background->getClientOriginalName();
+            $extension = $background ->getClientOriginalExtension();
+           $html_background_image = request()->file('background')->storeAs('html_background', $brandStation->id.'-'.$name);
+           $station->update(['html_background_image' => $html_background_image]);
+        }
 
         return Redirect::back()->with('success', 'Station updated.');
     }

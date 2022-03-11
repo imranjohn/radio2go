@@ -13,6 +13,7 @@
           <text-input v-model="form.artwork_image" :error="form.errors.artwork_image" class="pr-6 pb-8 w-full lg:w-1/2" label="Artwork url" />
           <text-input v-model="form.description" :error="form.errors.description" class="pr-6 pb-8 w-full lg:w-1/1" label="Description" />
           <textarea-input v-model="form.long_description" :error="form.errors.long_description" class="pr-6 pb-8 w-full lg:w-1/1" label="Long Description" />
+          <file-input v-model="form.background" :error="form.errors.background" class="pr-6 pb-8 w-full lg:w-1/2" type="file" accept="image/*" label="Html Background" />
         </div>
         <div class="px-8 py-4 bg-gray-50 border-t border-gray-100 flex justify-end items-center">
           <loading-button :loading="form.processing" class="btn-indigo" type="submit">Create Station</loading-button>
@@ -27,10 +28,12 @@ import Layout from '@/Shared/Layout'
 import TextInput from '@/Shared/TextInput'
 import TextareaInput from '@/Shared/TextareaInput'
 import LoadingButton from '@/Shared/LoadingButton'
+import FileInput from '@/Shared/FileInput'
 
 export default {
   metaInfo: { title: 'Create Station' },
   components: {
+    FileInput,
     LoadingButton,
     TextareaInput,
     TextInput,
@@ -46,12 +49,13 @@ export default {
         artwork_image: null,
         description: null,
         long_description: null,
+        background: null,
       }),
     }
   },
   methods: {
     store() {
-      this.form.post(this.route('stations.store'))
+      this.form.post(this.route('stations.store').url())
     },
   },
 }

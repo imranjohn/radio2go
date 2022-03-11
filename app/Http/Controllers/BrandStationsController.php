@@ -68,6 +68,14 @@ class BrandStationsController extends Controller
            $brandStation->update(['logo_url' => $logo_url]);
         }
 
+        if (Request::file('background')) {
+            $background = request()->file('background');
+            $name = $background->getClientOriginalName();
+            $extension = $background ->getClientOriginalExtension();
+           $html_background_image = request()->file('background')->storeAs('html_background', $brandStation->id.'-'.$name);
+           $brandStation->update(['html_background_image' => $html_background_image]);
+        }
+
         $audio_url = "";
         $audio_duration = 0;
         if (Request::file('audio')) {
@@ -145,6 +153,12 @@ class BrandStationsController extends Controller
         } else {
             $logo_url_link = null;
         }
+
+        if (file_exists(public_path('/storage/'.$brandStation->html_background_image)) && $brandStation->html_background_image) {
+            $html_background_image = url('storage/'.optional($brandStation)->html_background_image);
+        } else {
+            $html_background_image = null;
+        }
        // $logo_url_link = isset($brandStation->logo_url) && $brandStation->logo_url ? url('storage/'.optional($brandStation)->logo_url) : null;
         return Inertia::render('BrandStations/Edit', [
             'station' => [
@@ -160,6 +174,7 @@ class BrandStationsController extends Controller
                 'audio_name' => $brandStation->audio_url,
                 'logo_url_link' => $logo_url_link,
                 'logo_name' => $brandStation->logo_url,
+                'html_background_image' => $html_background_image,
                 'is_active' => $brandStation->is_active,
             ],
         ]);
@@ -167,6 +182,7 @@ class BrandStationsController extends Controller
 
     public function update(BrandStation $brandStation)
     {
+
       
         $brandStation->update(
             Request::validate([
@@ -184,6 +200,15 @@ class BrandStationsController extends Controller
             $extension = $photo->getClientOriginalExtension();
             $logo_url = request()->file('photo')->storeAs('photos', $brandStation->id.'-'.$name);
             $brandStation->update(['logo_url' => $logo_url]);
+        }
+
+        if (Request::file('background')) {
+        
+            $background = request()->file('background');
+            $name = $background->getClientOriginalName();
+            $extension = $background ->getClientOriginalExtension();
+           $html_background_image = request()->file('background')->storeAs('html_background', $brandStation->id.'-'.$name);
+           $brandStation->update(['html_background_image' => $html_background_image]);
         }
 
         $audio_url = "";
