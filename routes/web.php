@@ -186,10 +186,10 @@ Route::get('/create-html-for-radio/{brandStation}', function(BrandStation $brand
 
     
     $logo = $brandStation->is_branded_station ? url('storage/'.optional($brandStation)->logo_url): "https://appadmin.radio2go.fm/logo.png";
-    $background_image = $brandStation->is_branded_station ? url('storage/'.optional($brandStation)->html_background_image) : "https://appadmin.radio2go.fm/images/Background_m_logo2.png";
+    $background_image = $brandStation->html_background_image ? url('storage/'.optional($brandStation)->html_background_image) : "https://appadmin.radio2go.fm/images/Background_m_logo2.png";
 
 
-   // return view('html', compact('brandStation', 'logo', 'background_image'));
+   //return view('html', compact('brandStation', 'logo', 'background_image'));
 
     $data = view('html', compact('brandStation', 'logo', 'background_image'));
 	  
