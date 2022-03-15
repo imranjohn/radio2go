@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg">
-    <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    <link href="{{ url('css/app.css') }}" rel="stylesheet">
 
     {{-- Inertia --}}
     <script src="https://polyfill.io/v3/polyfill.min.js?features=smoothscroll,NodeList.prototype.forEach,Promise,Object.values,Object.assign" defer></script>
@@ -14,7 +14,7 @@
 
     <script src="{{ mix('/js/app.js') }}" defer></script>
     <link rel="stylesheet" href="https://cdn.plyr.io/3.6.12/plyr.css" />
-<script src="https://cdn.plyr.io/3.6.12/plyr.js"></script>
+    <script src="https://cdn.plyr.io/3.6.12/plyr.js"></script>
     <style>
 
 .wrapper{
