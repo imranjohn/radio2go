@@ -12,7 +12,7 @@
     {{-- Ping CRM --}}
     <script src="https://polyfill.io/v3/polyfill.min.js?features=String.prototype.startsWith" defer></script>
 
-    <script src="{{ mix('/js/app.js') }}" defer></script>
+    <script src="{{ url(mix('/js/app.js')) }}" defer></script>
     <link rel="stylesheet" href="https://cdn.plyr.io/3.6.12/plyr.css" />
     <script src="https://cdn.plyr.io/3.6.12/plyr.js"></script>
     <style>
