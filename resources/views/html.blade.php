@@ -26,12 +26,19 @@
 </head>
 <body class="font-sans leading-none text-gray-700 antialiased">
 
+<img class="top-0 right-0 absolute mt-6 mr-6 h-20 w-20 " src="{{$logo}}">
 <div class="p-6 min-h-screen flex justify-center items-center" style="background-image: url({{$background_image}})" >
+
 <div >
-    <div class="max-w-sm bg-black rounded-lg shadow-md dark:bg-gray-800 dark:border-gray-700">
-    <a href="#">
-    <img class="p-8 rounded-t-lg" src="{{$logo}}" alt="product image" />
-    </a>
+
+    <div class="max-w-sm bg-black rounded-lg shadow-md dark:bg-gray-800 dark:border-gray-700 	">
+    <section class="hero container max-w-screen-lg mx-auto pb-10">
+      <!-- <img class="mx-auto" src="https://picsum.photos/id/1/200/300" alt="screenshot" > -->
+       <img class="p-8 rounded-t-lg mx-auto	" src="{{$logo}}" alt="product image" />
+ 
+    </section>
+    <!-- <img class="p-8 rounded-t-lg flex items-center justify-center	" src="{{$logo}}" alt="product image" /> -->
+ 
     <div class="px-5 pb-5">
         <a href="#">
             <h5 class="text-xl font-semibold tracking-tight text-white">
@@ -45,8 +52,9 @@
         </div>
         <div class="flex justify-between items-center">
         <audio crossorigin playsinline>                      
-  <source src="{{$brandStation->stream_url}}" type="audio/mp3">
-   </audio>
+            <source src="{{$brandStation->stream_url}}" type="audio/mp3">
+            <!-- <source src="{{$audio_url}}" type="audio/mp3"> -->
+        </audio>
         </div>
     </div>
 </div>
@@ -75,8 +83,25 @@
   // Change "{}" to your options:
 // https://github.com/sampotts/plyr/#options
 const player = new Plyr('audio', {
-  autoplay: true
+  settings: []
 });
+
+// player.on('ended', (event) => {
+//   console.log(event);
+
+//   player.source = {
+//   type: 'audio',
+//   title: 'Example title',
+//   sources: [
+//     {
+//       src: "{{$brandStation->stream_url}}",
+//       type: 'audio/mp3',
+//     },
+//   ],
+// };
+
+// player.play();
+// });
 
 // Expose player so it can be used from the console
 window.player = player;
