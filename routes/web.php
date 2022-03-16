@@ -190,7 +190,12 @@ Route::get('/create-html-for-radio/{brandStation}', function(BrandStation $brand
         $logo = $brandStation->html_background_image ? url('storage/'.optional($brandStation)->logo_url): "https://appadmin.radio2go.fm/logo.png";
     }
 
-    $audio_url = url('storage/'.$brandStation->audio_url);
+    if($brandStation->audio_url){
+        $audio_url = url('storage/'.$brandStation->audio_url);
+    } else {
+        $audio_url = $brandStation->stream_url;
+    }
+    
    
     
     $background_image = $brandStation->html_background_image ? url('storage/'.optional($brandStation)->html_background_image) : "https://appadmin.radio2go.fm/images/Background_m_logo2.png";
