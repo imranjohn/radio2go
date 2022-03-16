@@ -52,8 +52,8 @@
         </div>
         <div class="flex justify-between items-center">
         <audio crossorigin playsinline>                      
-            <source src="{{$brandStation->stream_url}}" type="audio/mp3">
-            <!-- <source src="{{$audio_url}}" type="audio/mp3"> -->
+            <!-- <source src="{{$brandStation->stream_url}}" type="audio/mp3"> -->
+            <source src="{{$audio_url}}" type="audio/mp3">
         </audio>
         </div>
     </div>
@@ -86,22 +86,22 @@ const player = new Plyr('audio', {
   settings: []
 });
 
-// player.on('ended', (event) => {
-//   console.log(event);
+player.on('ended', (event) => {
+  console.log(event);
 
-//   player.source = {
-//   type: 'audio',
-//   title: 'Example title',
-//   sources: [
-//     {
-//       src: "{{$brandStation->stream_url}}",
-//       type: 'audio/mp3',
-//     },
-//   ],
-// };
+  player.source = {
+  type: 'audio',
+  title: 'Example title',
+  sources: [
+    {
+      src: "{{$brandStation->stream_url}}",
+      type: 'audio/mp3',
+    },
+  ],
+};
 
-// player.play();
-// });
+player.play();
+});
 
 // Expose player so it can be used from the console
 window.player = player;
