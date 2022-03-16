@@ -23,3 +23,6 @@
 <Files "apple-app-site-association">
     ForceType 'application/json'
 </Files>
+
+Header set Access-Control-Allow-Origin "*"
+
