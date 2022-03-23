@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg">
     <link href="{{ url('css/app.css') }}" rel="stylesheet">
+    <link rel="shortcut icon" href="https://appadmin.radio2go.fm/logo.png">
 
     {{-- Inertia --}}
     <script src="https://polyfill.io/v3/polyfill.min.js?features=smoothscroll,NodeList.prototype.forEach,Promise,Object.values,Object.assign" defer></script>
@@ -26,7 +27,7 @@
 </head>
 <body class="font-sans leading-none text-gray-700 antialiased">
 
-<img class="top-0 right-0 absolute mt-6 mr-6 h-20 w-20 " src="{{$logo}}">
+<img class="top-0 right-0 absolute object-cover mt-6 mr-6 h-20 w-50 " src="{{$logo}}">
 <div class="p-6 min-h-screen flex justify-center items-center" style="background-image: url({{$background_image}})" >
 
 <div >

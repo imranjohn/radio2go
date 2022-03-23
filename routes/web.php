@@ -183,7 +183,7 @@ Route::get('/img/{path}', [ImagesController::class, 'show'])
     ->where('path', '.*')
     ->name('image');
 Route::get('/create-html-for-radio/{brandStation}', function(BrandStation $brandStation) {
-   
+    
     if($brandStation->artwork_image){
         $logo = $brandStation->artwork_image;
     } else {
@@ -205,7 +205,7 @@ Route::get('/create-html-for-radio/{brandStation}', function(BrandStation $brand
 
     $data = view('html', compact('brandStation', 'logo', 'background_image', 'audio_url'));
 	  
-    $jsongFile = 'radio-html-'.$brandStation->id.'.html';
+    $jsongFile = $brandStation->name.'.html';
     File::put(public_path('/storage/upload/html/'.$jsongFile), $data);
     return response()->download(public_path('/storage/upload/html/'.$jsongFile));
 })->name('create.html');
