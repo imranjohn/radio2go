@@ -4,8 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg">
-    <link href="{{ url('css/app.css') }}" rel="stylesheet">
-    <link rel="shortcut icon" href="{{$logo}}">
+    <link href="{{ asset('css/app.css') }}" rel="stylesheet">
 
     {{-- Inertia --}}
     <script src="https://polyfill.io/v3/polyfill.min.js?features=smoothscroll,NodeList.prototype.forEach,Promise,Object.values,Object.assign" defer></script>
@@ -13,9 +12,9 @@
     {{-- Ping CRM --}}
     <script src="https://polyfill.io/v3/polyfill.min.js?features=String.prototype.startsWith" defer></script>
 
-    <script src="{{ url(mix('/js/app.js')) }}" defer></script>
+    <script src="{{ mix('/js/app.js') }}" defer></script>
     <link rel="stylesheet" href="https://cdn.plyr.io/3.6.12/plyr.css" />
-    <script src="https://cdn.plyr.io/3.6.12/plyr.js"></script>
+<script src="https://cdn.plyr.io/3.6.12/plyr.js"></script>
     <style>
 
 .wrapper{
@@ -27,7 +26,7 @@
 </head>
 <body class="font-sans leading-none text-gray-700 antialiased">
 
-<img class="top-0 right-0 absolute object-cover mt-6 mr-6 h-20 w-50 " src="{{$logo}}">
+<img class="top-0 right-0 absolute mt-6 mr-6 h-20 w-20 " src="{{$logo}}">
 <div class="p-6 min-h-screen flex justify-center items-center" style="background-image: url({{$background_image}})" >
 
 <div >
@@ -54,7 +53,7 @@
         <div class="flex justify-between items-center">
         <audio crossorigin playsinline>                      
             <!-- <source src="{{$brandStation->stream_url}}" type="audio/mp3"> -->
-            <source  type="audio/mp3">
+            <source src="{{$audio_url}}" type="audio/mp3">
         </audio>
         </div>
     </div>
@@ -86,17 +85,6 @@
 const player = new Plyr('audio', {
   settings: []
 });
-
-player.source = {
-  type: 'audio',
-  title: 'Example title',
-  sources: [
-    {
-      src: "{{$audio_url}}",
-      type: 'audio/mp3',
-    },
-  ],
-};
 
 player.on('ended', (event) => {
   console.log(event);
