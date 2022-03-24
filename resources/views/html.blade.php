@@ -28,7 +28,7 @@
 <body class="font-sans leading-none text-gray-700 antialiased">
 
 <img class="top-0 right-0 absolute object-cover mt-6 mr-6 h-20 w-50 " src="{{$logo}}">
-<div class="p-6 min-h-screen flex justify-center items-center" style="background-image: url({{$background_image}})" >
+<div class="p-6 min-h-screen flex bg-cover bg-center justify-center items-center" style="background-image: url('{{$background_image}}')" >
 
 <div >
 
