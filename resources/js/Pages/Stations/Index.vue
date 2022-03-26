@@ -22,7 +22,7 @@
           <th class="px-6 pt-6 pb-4 w-44">Station Logo</th>
           <th class="px-6 pt-6 pb-4">Station Url</th>
           <th class="px pt-6 pb-4">Description</th>
-          <th class="px-6 pt-6 pb-4 w-44">Html</th>
+          <th class="px-6 pt-6 pb-4 w-50">Html</th>
           <th class="px-6 pt-6 pb-4">Action</th>
         </tr>
         <tr v-for="station in stations.data" :key="station.id" class="hover:bg-gray-100 focus-within:bg-gray-100">
