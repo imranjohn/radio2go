@@ -64,7 +64,7 @@
             </a>
           </td>
           <td class="border-t ">
-            <a :href="route('create.html', station.id)" target="_blank" class=" ml-7 float-left	">Download</a>
+            <a :href="route('create.html', station.id)" target="_blank" class=" ml-7 float-left	">Download /</a><a :href="route('open.html', station.id)" target="_blank" class=" ml-7 float-left	">Open</a>
             <!-- <inertia-link class=" ml-7 float-left	" :href="route('create.html', station.id)" target="_blank" tabindex="-1">
              Create Html
             </inertia-link> -->

@@ -196,12 +196,9 @@ Route::get('/create-html-for-radio/{brandStation}', function(BrandStation $brand
         $audio_url = $brandStation->stream_url;
     }
     
-   
     
     $background_image = $brandStation->html_background_image ? url('storage/'.optional($brandStation)->html_background_image) : "https://appadmin.radio2go.fm/images/Background_m_logo2.png";
 
-
-    //return view('html', compact('brandStation', 'logo', 'background_image', 'audio_url'));
 
     $data = view('html', compact('brandStation', 'logo', 'background_image', 'audio_url'));
 	  
@@ -209,5 +206,38 @@ Route::get('/create-html-for-radio/{brandStation}', function(BrandStation $brand
     File::put(public_path('/storage/upload/html/'.$jsongFile), $data);
     return response()->download(public_path('/storage/upload/html/'.$jsongFile));
 })->name('create.html');
+
+
+Route::get('/channel/{brandStation}', function (BrandStation $brandStation) {
+    
+    $name = strtolower(str_replace(' ', '-', $brandStation->name));
+
+   return  redirect(route('open.html.page', ['brandStation' => $brandStation->id, 'name' => $name.'.html']));
+  
+   
+})->name('open.html');
+
+Route::get('/channel/{brandStation}/{name}', function(BrandStation $brandStation) {
+ if($brandStation->artwork_image){
+        $logo = $brandStation->artwork_image;
+    } else {
+        $logo = $brandStation->html_background_image ? url('storage/'.optional($brandStation)->logo_url): "https://appadmin.radio2go.fm/logo.png";
+    }
+
+    if($brandStation->audio_url){
+        $audio_url = url('storage/'.$brandStation->audio_url);
+    } else {
+        $audio_url = $brandStation->stream_url;
+    }
+    
+    $background_image = $brandStation->html_background_image ? url('storage/'.optional($brandStation)->html_background_image) : "https://appadmin.radio2go.fm/images/Background_m_logo2.png";
+
+
+    return view('html', compact('brandStation', 'logo', 'background_image', 'audio_url'));
+})->name('open.html.page');
+
+
+
+
 
    

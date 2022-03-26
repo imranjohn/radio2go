@@ -46,7 +46,7 @@
             {{ station.description !== null ? station.description.substring(0, 50) : "" }}
           </td>
            <td class="border-t ">
-            <a :href="route('create.html', station.id)" target="_blank" class=" ml-7 float-left	">Download</a>
+            <a :href="route('create.html', station.id)" target="_blank" class=" ml-7 float-left	">Download /</a><a :href="route('open.html', station.id)" target="_blank" class=" ml-7 float-left	">Open</a>
           </td>
           <td class="border-t">
             <inertia-link class=" ml-7 float-left	" :href="route('stations.edit', station.id)" tabindex="-1">
