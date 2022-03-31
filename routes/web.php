@@ -217,7 +217,7 @@ Route::get('/channel/{brandStation}', function (BrandStation $brandStation) {
    
 })->name('open.html');
 
-Route::get('/channel/{brandStation}/{name}', function(BrandStation $brandStation) {
+Route::get('/{brandStation}/{name}', function(BrandStation $brandStation) {
  if($brandStation->artwork_image){
         $logo = $brandStation->artwork_image;
     } else {
