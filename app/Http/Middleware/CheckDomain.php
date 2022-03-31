@@ -16,6 +16,7 @@ class CheckDomain
      */
     public function handle(Request $request, Closure $next)
     {
+        dd(request()->getHost());
         if(request()->getHost() === 'appadmin.radio2go.fm' || 'localhost'){
             return $next($request);
         }
