@@ -219,7 +219,9 @@ Route::get('/channel/{brandStation}', function (BrandStation $brandStation) {
     
     $name = strtolower(str_replace(' ', '-', $brandStation->name));
 
-   return  redirect(route('open.html.page', ['brandStation' => $brandStation->id, 'name' => $name.'.html']));
+    $url = 'https://channel.radio2go.fm/'.$brandStation->id.'/'.$name.'.html';
+    return redirect($url);
+  // return  redirect(route('open.html.page', ['brandStation' => $brandStation->id, 'name' => $name.'.html']));
   
    
 })->name('open.html');
