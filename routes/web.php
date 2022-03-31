@@ -218,6 +218,8 @@ Route::get('/channel/{brandStation}', function (BrandStation $brandStation) {
 })->name('open.html');
 
 Route::get('/{brandStation}/{name}', function(BrandStation $brandStation) {
+
+    dd(request()->getHost());
  if($brandStation->artwork_image){
         $logo = $brandStation->artwork_image;
     } else {
