@@ -27,8 +27,9 @@ use Illuminate\Support\Facades\File;
 */
 
 // Auth
+Route::middleware(['check.domain'])->group(function () {
 
-Route::get('login', [AuthenticatedSessionController::class, 'create'])
+    Route::get('login', [AuthenticatedSessionController::class, 'create'])
     ->name('login')
     ->middleware('guest');
 
@@ -207,6 +208,12 @@ Route::get('/create-html-for-radio/{brandStation}', function(BrandStation $brand
     return response()->download(public_path('/storage/upload/html/'.$jsongFile));
 })->name('create.html');
 
+    //
+});
+
+
+
+
 
 Route::get('/channel/{brandStation}', function (BrandStation $brandStation) {
     
@@ -219,7 +226,7 @@ Route::get('/channel/{brandStation}', function (BrandStation $brandStation) {
 
 Route::get('/{brandStation}/{name}', function(BrandStation $brandStation) {
 
-    dd(request()->getHost());
+   
  if($brandStation->artwork_image){
         $logo = $brandStation->artwork_image;
     } else {
