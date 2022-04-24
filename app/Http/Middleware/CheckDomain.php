@@ -21,7 +21,7 @@ class CheckDomain
             return $next($request);
         }
 
-        abort(404);
+        return redirect('https://www.radio2go.fm');
         
     }
 }
