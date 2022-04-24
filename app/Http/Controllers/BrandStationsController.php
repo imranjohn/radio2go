@@ -47,7 +47,24 @@ class BrandStationsController extends Controller
 
     public function store()
     {
-    
+        $current_time = time();
+        if (Request::file('video')) {
+            $video = request()->file('video');
+            $name = $video->getClientOriginalName();
+            $extension = $video ->getClientOriginalExtension();
+            $video = request()->file('video')->storeAs('background_videos', $current_time.'-'.$name);
+            $video_link = 'storage/'.$video;
+            $getID3 = new \getID3;
+            $ThisFileInfo = $getID3->analyze($video_link);
+           
+            $seconds = $ThisFileInfo['playtime_seconds'];
+
+            if($seconds > 31){
+                unlink($video_link);
+               return redirect()->back()->with('error', 'Video is longer than 30 seconds');
+            }
+           
+        }
     
        $brandStation = BrandStation::create(
             Request::validate([
@@ -74,6 +91,14 @@ class BrandStationsController extends Controller
             $extension = $background ->getClientOriginalExtension();
            $html_background_image = request()->file('background')->storeAs('html_background', $brandStation->id.'-'.$name);
            $brandStation->update(['html_background_image' => $html_background_image]);
+        }
+
+        if (Request::file('video')) {
+            $video = request()->file('video');
+            $name = $video->getClientOriginalName();
+            $extension = $video ->getClientOriginalExtension();
+           $video = request()->file('video')->storeAs('background_videos', $current_time.'-'.$name);
+           $brandStation->update(['video_url' => $video]);
         }
 
         $audio_url = "";
@@ -146,6 +171,7 @@ class BrandStationsController extends Controller
     {
        
         $audio_link = isset($brandStation->audio_url) && $brandStation->audio_url ? url('storage/'.optional($brandStation)->audio_url) : null;
+        $video_link = isset($brandStation->video_url) && $brandStation->video_url ? url('storage/'.optional($brandStation)->video_url) : null;
         if (file_exists(public_path('/storage/'.$brandStation->logo_url)) && $brandStation->logo_url) {
             $logo_url_link = url('storage/'.optional($brandStation)->logo_url);
         } elseif(file_exists( public_path() . '/storage/photos/'.$brandStation->id)){
@@ -176,6 +202,7 @@ class BrandStationsController extends Controller
                 'logo_name' => $brandStation->logo_url,
                 'html_background_image' => $html_background_image,
                 'is_active' => $brandStation->is_active,
+                'video_url' => $video_link,
             ],
         ]);
     }
@@ -194,6 +221,26 @@ class BrandStationsController extends Controller
                 'long_description' => ['nullable'],
             ])
         );
+
+        $current_time = time();
+        if (Request::file('video')) {
+            $video = request()->file('video');
+            $name = $video->getClientOriginalName();
+            $extension = $video ->getClientOriginalExtension();
+            $video = request()->file('video')->storeAs('background_videos', $current_time.'-'.$name);
+            $video_link = 'storage/'.$video;
+            $getID3 = new \getID3;
+            $ThisFileInfo = $getID3->analyze($video_link);
+            
+            $seconds = $ThisFileInfo['playtime_seconds'];
+
+            if($seconds > 31){
+                unlink($video_link);
+               return redirect()->back()->with('error', 'Video is longer than 30 seconds');
+            }
+           
+        }
+
         if (Request::file('photo')) {
             $photo = request()->file('photo');
             $name = $photo->getClientOriginalName();
@@ -209,6 +256,14 @@ class BrandStationsController extends Controller
             $extension = $background ->getClientOriginalExtension();
            $html_background_image = request()->file('background')->storeAs('html_background', $brandStation->id.'-'.$name);
            $brandStation->update(['html_background_image' => $html_background_image]);
+        }
+
+        if (Request::file('video')) {
+            $video = request()->file('video');
+            $name = $video->getClientOriginalName();
+            $extension = $video ->getClientOriginalExtension();
+           $video = request()->file('video')->storeAs('background_videos', $current_time.'-'.$name);
+           $brandStation->update(['video_url' => $video]);
         }
 
         $audio_url = "";

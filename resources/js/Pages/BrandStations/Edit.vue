@@ -26,6 +26,7 @@
           <file-input v-model="form.background" :error="form.errors.background" :logoName="station.html_background_image" :logoUrlLink="station.html_background_image" class="pr-6 pb-8 w-full lg:w-1/2" type="file" accept="image/*" label="Html Background" />
           <audio-file-input v-model="form.audio" :error="form.errors.audio" :audioLink="station.audio_url" :audioName="station.audio_name" class="pr-6 pb-8 w-full lg:w-1/2" type="file" accept="audio/*" label="Audio" />
           <img v-if="station.logo_url_link" class="object-contain h-48 w-full" :src="station.logo_url_link || 'logo_round.png'" />
+          <audio-file-input v-model="form.video" :error="form.errors.video" :audioLink="station.video_url" :audioName="station.video_url" class="pr-6 pb-8 w-full lg:w-1/2" type="file" accept="video/*" label="Video Background" />
         </div>
         <div class="px-8 py-4 bg-gray-50 border-t border-gray-100 flex items-center">
           <button v-if="!station.deleted_at" class="text-red-600 hover:underline" tabindex="-1" type="button" @click="destroy">Delete Brand Station</button>
@@ -76,6 +77,7 @@ export default {
         photo: null,
         audio: null,
         background: null,
+        video: null,
        
       }),
       status: this.station.is_active ? 'Deactive' : 'Active',

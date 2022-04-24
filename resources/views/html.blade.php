@@ -23,14 +23,31 @@
   height:100vh;
   place-items:center
 }
+#myVideo {
+  position: fixed;
+  right: 0;
+  bottom: 0;
+  min-width: 100%;
+  min-height: 100%; 
+  z-index: 0;
+}
     </style>
 </head>
+
 <body class="font-sans leading-none text-gray-700 antialiased">
 
+@if($video_url)
+<video autoplay loop muted id="myVideo">
+    <source src="{{$video_url}}" type="video/mp4" class="min-w-full min-h-full absolute object-cover"/>
+    <source src="{{$video_url}}" type="video/ogg" class="min-w-full min-h-full absolute object-cover"/>
+    <source src="{{$video_url}}" type="video/webm" class="min-w-full min-h-full absolute object-cover"/>
+    Your browser does not support the video tag.
+  </video>
+@endif
 <img class="top-0 right-0 absolute object-cover mt-6 mr-6 h-20 w-50 " src="{{$logo}}">
 <div class="p-6 min-h-screen flex bg-cover bg-center justify-center items-center" style="background-image: url('{{$background_image}}'); background-size: cover; background-position: center" >
 
-<div >
+<div class="z-50">
 
     <div class="max-w-sm bg-black rounded-lg shadow-md dark:bg-gray-800 dark:border-gray-700 	">
     <section class="hero container max-w-screen-lg mx-auto pb-10">
@@ -119,5 +136,6 @@ player.play();
 window.player = player;
 
 </script>
+
 </body>
 </html>

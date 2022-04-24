@@ -16,6 +16,7 @@
           <file-input v-model="form.photo" :error="form.errors.photo" class="pr-6 pb-8 w-full lg:w-1/2" type="file" accept="image/*" label="Photo" />
           <file-input v-model="form.background" :error="form.errors.background" class="pr-6 pb-8 w-full lg:w-1/2" type="file" accept="image/*" label="Html Background" />
           <file-input v-model="form.audio" :error="form.errors.audio" class="pr-6 pb-8 w-full lg:w-1/2" type="file" accept="audio/*" label="Audio" />
+          <file-input v-model="form.video" :error="form.errors.video" class="pr-6 pb-8 w-full lg:w-1/2" type="file" accept="image/*" label="Background Video" />
         </div>
         <div class="px-8 py-4 bg-gray-50 border-t border-gray-100 flex justify-end items-center">
           <loading-button :loading="form.processing" class="btn-indigo" type="submit">Create Brand Station</loading-button>
@@ -54,6 +55,7 @@ export default {
         photo:null,
         audio:null,
         background: null,
+        video: null,
       }),
     }
   },

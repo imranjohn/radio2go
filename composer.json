@@ -13,6 +13,7 @@
         "fruitcake/laravel-cors": "^2.0",
         "guzzlehttp/guzzle": "^7.0.1",
         "inertiajs/inertia-laravel": "^0.4",
+        "james-heinrich/getid3": "^1.9",
         "laravel/framework": "^8.40",
         "laravel/tinker": "^2.5",
         "league/glide-laravel": "^1.0",
