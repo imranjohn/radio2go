@@ -88,6 +88,8 @@ Route::post('stations/update/{brandStation}', [BrandStationsController::class, '
 Route::post('stations/{station}', [StationsController::class, 'duplicateStation'])->name('stations.duplicate');
 Route::post('brand-station-status/{brandStation}', [BrandStationsController::class, 'toggleStatus'])->name('brand-stations.toggleStation');
 
+Route::post('brand-stations/delete-brand-video/{brandStation}', [BrandStationsController::class, 'deleteVideoLink'])->name('brand-stations.deleteVideoLink');
+
 Route::get('generate-link', function() {
 
     dd(route('brand.stations.deeplink', ['brandStation' => 4]));

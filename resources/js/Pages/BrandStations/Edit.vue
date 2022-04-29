@@ -26,7 +26,8 @@
           <file-input v-model="form.background" :error="form.errors.background" :logoName="station.html_background_image" :logoUrlLink="station.html_background_image" class="pr-6 pb-8 w-full lg:w-1/2" type="file" accept="image/*" label="Html Background" />
           <audio-file-input v-model="form.audio" :error="form.errors.audio" :audioLink="station.audio_url" :audioName="station.audio_name" class="pr-6 pb-8 w-full lg:w-1/2" type="file" accept="audio/*" label="Audio" />
           <img v-if="station.logo_url_link" class="object-contain h-48 w-full" :src="station.logo_url_link || 'logo_round.png'" />
-          <audio-file-input v-model="form.video" :error="form.errors.video" :audioLink="station.video_url" :audioName="station.video_url" class="pr-6 pb-8 w-full lg:w-1/2" type="file" accept="video/*" label="Video Background" />
+          <audio-file-input v-model="form.video" :error="form.errors.video" :audioLink="station.video_url" :audioName="station.video_url" class="pr-6 pb-8 w-full lg:w-1/3" type="file" accept="video/*" label="Video Background" />
+          <button type="button" v-if="station.video_url" class="bg-red-500 hover:bg-red-600 active:bg-red-700 focus:outline-none focus:ring focus:ring-violet-300 h-1/2 mt-6 btn-indigo" @click="deleteVideoLink">Delete Video</button>
         </div>
         <div class="px-8 py-4 bg-gray-50 border-t border-gray-100 flex items-center">
           <button v-if="!station.deleted_at" class="text-red-600 hover:underline" tabindex="-1" type="button" @click="destroy">Delete Brand Station</button>
@@ -95,6 +96,11 @@ export default {
     duplicate() {
       if (confirm('Are you sure you want to duplicate this brand station?')) {
         this.$inertia.post(this.route('brand-stations.duplicate', this.station.id))
+      }
+    },
+    deleteVideoLink() {
+      if (confirm('Are you sure you want to delete video link?')) {
+         this.$inertia.post(this.route('brand-stations.deleteVideoLink', this.station.id))
       }
     },
     toggleStation(){

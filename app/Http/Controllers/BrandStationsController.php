@@ -12,6 +12,7 @@ use SimpleSoftwareIO\QrCode\Facades\QrCode;
 use wapmorgan\Mp3Info\Mp3Info;
 use App\Models\SortedStation;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Facades\Storage;
 
 class BrandStationsController extends Controller
 {
@@ -408,5 +409,15 @@ class BrandStationsController extends Controller
         $brandStation->update(['is_active' => !$brandStation->is_active]);    
         
         return Redirect::back()->with('success', 'Station updated.');
+     }
+
+     public function deleteVideoLink(BrandStation $brandStation) {
+     
+        $link = $brandStation->video_url;
+       if($brandStation->update(['video_url' => null])){
+        unlink(storage_path('app/public/'.$link));
+       } 
+
+        return Redirect::back()->with('success', 'Video link deleted.');
      }
 }
