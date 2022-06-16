@@ -191,7 +191,6 @@
             }
 
             if (urlLink.artwork[0] !== undefined) {
-                console.log(urlLink);
                 const newLink = urlLink.artwork[0].url;
                 document.getElementById("background-image").src = newLink;
             }
@@ -227,9 +226,6 @@
       }}}`
         }, function(error, data) {
             const songObject = data;
-
-            console.log("========================");
-            console.log(songObject);
 
             if (songObject.songUpdate.channel.playingnow.current.metadata.title) {
                 document.getElementById("radio-title").innerHTML = songObject.songUpdate.channel.playingnow.current.metadata.title;
