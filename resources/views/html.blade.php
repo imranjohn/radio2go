@@ -145,11 +145,13 @@
     </script>
 
     <script>
+        var graphql_id = {!! json_encode($brandStation->graphql_id) !!};
+
         async function getData() {
 
             const data = JSON.stringify({
                 query: `query {
-                channel(id: "621899fb16dbdb001a9c99d1") {
+                channel(id: "${graphql_id}") {
                 id
                 name
                 playingnow {
@@ -210,7 +212,7 @@
 
 
         subClient.subscribe({
-            query: `subscription{songUpdate(channelId:  "621899fb16dbdb001a9c99d1"){    
+            query: `subscription{songUpdate(channelId:  "${graphql_id}"){    
             channel{
               playingnow {
             current {
