@@ -146,7 +146,7 @@
 
     <script>
         var graphql_id = {!! json_encode($brandStation->graphql_id) !!};
-
+        var defaultLogo = {!! json_encode($logo) !!};
         async function getData() {
 
             const data = JSON.stringify({
@@ -195,13 +195,15 @@
             if (urlLink.artwork[0] !== undefined) {
                 const newLink = urlLink.artwork[0].url;
                 document.getElementById("background-image").src = newLink;
+            } else {
+                document.getElementById("background-image").src = defaultLogo;
             }
         }
 
         getData();
 
         const GRAPHQL_ENDPOINT =
-            (location.protocol === "https" ? "wss" : "ws") +
+            (location.protocol === "https" ? "wss" : "wss") +
             "://einsam.playlist-api.deliver.media/graphql"
         let subClient = new window.SubscriptionsTransportWs.SubscriptionClient(
             GRAPHQL_ENDPOINT, {
@@ -240,6 +242,8 @@
             if (songObject.songUpdate.channel.playingnow.current.artwork[0] !== undefined) {
                 const newLink = songObject.songUpdate.channel.playingnow.current.artwork[0].url;
                 document.getElementById("background-image").src = newLink;
+            } else {
+                document.getElementById("background-image").src = defaultLogo;
             }
         })
     </script>
