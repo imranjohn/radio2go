@@ -199,11 +199,16 @@ Route::get('/create-html-for-radio/{brandStation}', function(BrandStation $brand
         $audio_url = $brandStation->stream_url;
     }
     
-    
+    if($brandStation->video_url){
+             $video_url = url('storage/'.$brandStation->video_url);
+        } else {
+            $video_url = null;
+        }
+        
     $background_image = $brandStation->html_background_image ? url('storage/'.optional($brandStation)->html_background_image) : "https://appadmin.radio2go.fm/images/Background_m_logo2.png";
 
 
-    $data = view('html', compact('brandStation', 'logo', 'background_image', 'audio_url'));
+    $data = view('html', compact('brandStation', 'logo', 'background_image', 'audio_url', 'video_url'));
 	  
     $jsongFile = $brandStation->name.'.html';
     File::put(public_path('/storage/upload/html/'.$jsongFile), $data);
