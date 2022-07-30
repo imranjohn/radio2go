@@ -23,6 +23,7 @@ class StationResource extends JsonResource
         return [
             'id' => $this->id,
             'name' => $this->name,
+            'graphql_id' => $this->graphql_id,
             'streamURL' => $this->stream_url,
             'imageURL' => $this->image_url,
             'artworkImage' => $this->artwork_image,
@@ -38,6 +39,7 @@ class StationResource extends JsonResource
             return [
                 'id' => optional($this->station)->id,
                 'name' => optional($this->station)->name,
+                'graphql_id' => optional($this->station)->graphql_id,
                 'streamURL' => optional($this->station)->stream_url,
                 'imageURL' => optional($this->station)->image_url,
                 'artworkImage' => optional($this->station)->artwork_image,
